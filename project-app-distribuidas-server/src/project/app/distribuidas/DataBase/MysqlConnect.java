@@ -10,7 +10,10 @@ public class MysqlConnect {
     public static Connection ConnectDB(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+            /*
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/lgh","","");
+            */
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/lgh","root","100114");
             return conn;
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);

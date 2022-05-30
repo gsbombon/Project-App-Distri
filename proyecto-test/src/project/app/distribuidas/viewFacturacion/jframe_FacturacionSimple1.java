@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import project.app.distribuidas.viewLogin.jframe_mainOptions;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import project.app.distribuidas.db.MysqlConnect;
 import project.app.distribuidas.model.Cliente;
 
 /**
@@ -100,6 +101,9 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        txt_cuidad = new javax.swing.JTextField();
+        txt_id = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -176,6 +180,24 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel7.setText("Nombre");
 
+        txt_cuidad.setEditable(false);
+        txt_cuidad.setEnabled(false);
+
+        txt_id.setEditable(false);
+        txt_id.setEnabled(false);
+        txt_id.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_idActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Limpiar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -194,21 +216,27 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnGuardar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnModificar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEliminar))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
                             .addComponent(jLabel7))
                         .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txt_cuidad, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txt_ruc)
                             .addComponent(txt_nombre)
-                            .addComponent(txt_dir))))
+                            .addComponent(txt_dir)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnGuardar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnModificar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminar)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(28, 28, 28))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -229,9 +257,11 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(btnBuscar))
+                    .addComponent(btnBuscar)
+                    .addComponent(txt_cuidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -248,7 +278,9 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnGuardar)
                             .addComponent(btnModificar)
-                            .addComponent(btnEliminar)))
+                            .addComponent(btnEliminar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -259,14 +291,33 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        PreparedStatement ps = null;
+        try {
 
+            Connection conn = MysqlConnect.ConnectDB();
+
+            int Fila = this.jtable_clientes.getSelectedRow();
+            int codigo = Integer.parseInt(this.jtable_clientes.getValueAt(Fila, 0).toString());
+
+            ps = conn.prepareStatement("DELETE FROM cliente WHERE CODIGO_CLI=?");
+            ps.setInt(1, codigo);
+            ps.execute();
+
+            //modelo.removeRow(Fila);
+            JOptionPane.showMessageDialog(null, "Producto Eliminado");
+            limpiar();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al Eliminar Producto");
+            System.out.println(ex.toString());
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         String campo = txtCampo.getText();
         String where = "";
         if (!"".equals(campo)) {
-            where = "WHERE codigo = '" + campo + "'";
+            where = "WHERE RUC_CLI = '" + campo + "'";
         }
 
         try {
@@ -275,22 +326,24 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
 
             PreparedStatement ps = null;
             ResultSet rs = null;
-            //Connection conn = MysqlConnect.ConnectDB();
+            Connection conn = MysqlConnect.ConnectDB();
             
 
-            String sql = "SELECT codigo, nombre, precio, cantidad FROM producto " + where;
+            String sql = "SELECT * FROM cliente " + where;
             System.out.println(sql);
-            //ps = con.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
+            
 
             ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
             int cantidadColumnas = rsMd.getColumnCount();
 
             modelo.addColumn("Código");
-            modelo.addColumn("Producto");
-            modelo.addColumn("Precio");
-            modelo.addColumn("Cantidad");
-            int[] anchos = {50, 200, 50, 50};
+            modelo.addColumn("Cuidad");
+            modelo.addColumn("RUC");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Direccion");
+            int[] anchos = {20, 50, 50, 50, 100};
             for (int i = 0; i < this.jtable_clientes.getColumnCount(); i++) {
                 jtable_clientes.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
             }
@@ -332,32 +385,87 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "FALLIDO ! ");
 
             }
-            
-            
         } catch (IOException ex) {
             Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
-        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void jtable_clientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtable_clientesMouseClicked
-        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            Connection conn = MysqlConnect.ConnectDB();
+
+            int Fila = this.jtable_clientes.getSelectedRow();
+            String codigo = this.jtable_clientes.getValueAt(Fila, 0).toString();
+
+            ps = conn.prepareStatement("SELECT * FROM cliente WHERE CODIGO_CLI=?");
+            ps.setString(1, codigo);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                this.txt_id.setText(rs.getString("CODIGO_CLI"));
+                this.txt_cuidad.setText(rs.getString("CODIGO_CIU"));
+                this.txt_ruc.setText(rs.getString("RUC_CLI"));
+                this.txt_nombre.setText(rs.getString("NOM_CLI"));
+                this.txt_dir.setText(rs.getString("DIR_CLI"));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        }
     }//GEN-LAST:event_jtable_clientesMouseClicked
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        int Fila = this.jtable_clientes.getSelectedRow();
 
+        PreparedStatement ps = null;
+        try {
+            Connection conn = MysqlConnect.ConnectDB();
+            ps = conn.prepareStatement("UPDATE cliente SET CODIGO_CIU=?, RUC_CLI=?, NOM_CLI=?, DIR_CLI=? WHERE CODIGO_CLI=?");
+
+            ps.setInt(1, Integer.parseInt(this.txt_cuidad.getText()));
+            ps.setString(2, this.txt_ruc.getText());
+            ps.setString(3, this.txt_nombre.getText());
+            ps.setString(4, this.txt_dir.getText());
+            ps.setInt(5, Integer.parseInt(this.txt_id.getText()));
+
+            ps.execute();
+
+            JOptionPane.showMessageDialog(null, "Producto Modificado");
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al Modificar Producto");
+            System.out.println(ex);
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jframe_mainOptions mo = new jframe_mainOptions();
         mo.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txt_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_idActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.txt_id.setText("");
+        this.txt_cuidad.setText("");
+        this.txt_ruc.setText("");
+        this.txt_nombre.setText("");
+        this.txt_dir.setText("");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void limpiar(){
+        this.txt_id.setText("");
+        this.txt_cuidad.setText("");
+        this.txt_ruc.setText("");
+        this.txt_nombre.setText("");
+        this.txt_dir.setText("");
+    }
     /**
      * @param args the command line arguments
      */
@@ -408,6 +516,7 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
@@ -416,7 +525,9 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtable_clientes;
     private javax.swing.JTextField txtCampo;
+    private javax.swing.JTextField txt_cuidad;
     private javax.swing.JTextField txt_dir;
+    private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_nombre;
     private javax.swing.JTextField txt_ruc;
     // End of variables declaration//GEN-END:variables
