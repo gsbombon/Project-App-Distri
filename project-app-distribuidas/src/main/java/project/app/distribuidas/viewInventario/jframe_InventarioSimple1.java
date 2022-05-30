@@ -5,6 +5,7 @@
 package project.app.distribuidas.viewInventario;
 
 import project.app.distribuidas.viewFacturacion.*;
+import project.app.distribuidas.viewLogin.jframe_mainOptions;
 
 /**
  *
@@ -32,17 +33,17 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
         jp_datos = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txt_nomArt = new javax.swing.JTextField();
+        txt_precioA = new javax.swing.JTextField();
         jp_acciones = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btn_agregA = new javax.swing.JButton();
+        btn_modifiA = new javax.swing.JButton();
+        btn_eliminA = new javax.swing.JButton();
+        btn_nuevo = new javax.swing.JButton();
         jp_listar = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
+        btn_Regresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,9 +56,9 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
 
         jLabel3.setText("Precio");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txt_nomArt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txt_nomArtActionPerformed(evt);
             }
         });
 
@@ -72,8 +73,8 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jp_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_nomArt)
+                    .addComponent(txt_precioA, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jp_datosLayout.setVerticalGroup(
@@ -82,28 +83,28 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
                 .addGap(13, 13, 13)
                 .addGroup(jp_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_nomArt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jp_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_precioA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jp_acciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Acciones"));
 
-        jButton1.setText("Agregar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregA.setText("Agregar");
+        btn_agregA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_agregAActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Modificar");
+        btn_modifiA.setText("Modificar");
 
-        jButton3.setText("Eliminar");
+        btn_eliminA.setText("Eliminar");
 
-        jButton4.setText("Nuevo");
+        btn_nuevo.setText("Nuevo");
 
         javax.swing.GroupLayout jp_accionesLayout = new javax.swing.GroupLayout(jp_acciones);
         jp_acciones.setLayout(jp_accionesLayout);
@@ -111,23 +112,23 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
             jp_accionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jp_accionesLayout.createSequentialGroup()
                 .addGap(55, 55, 55)
-                .addComponent(jButton1)
+                .addComponent(btn_agregA)
                 .addGap(37, 37, 37)
-                .addComponent(jButton2)
+                .addComponent(btn_modifiA)
                 .addGap(45, 45, 45)
-                .addComponent(jButton3)
+                .addComponent(btn_eliminA)
                 .addGap(37, 37, 37)
-                .addComponent(jButton4)
+                .addComponent(btn_nuevo)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jp_accionesLayout.setVerticalGroup(
             jp_accionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jp_accionesLayout.createSequentialGroup()
                 .addGroup(jp_accionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(btn_agregA)
+                    .addComponent(btn_modifiA)
+                    .addComponent(btn_eliminA)
+                    .addComponent(btn_nuevo))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
@@ -160,9 +161,14 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jButton5.setBackground(new java.awt.Color(51, 153, 0));
-        jButton5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton5.setText("Regresar");
+        btn_Regresar.setBackground(new java.awt.Color(51, 153, 0));
+        btn_Regresar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_Regresar.setText("Regresar");
+        btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RegresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -183,7 +189,7 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(226, 226, 226))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29))))
         );
         layout.setVerticalGroup(
@@ -198,20 +204,26 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jp_listar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addComponent(btn_Regresar, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addGap(11, 11, 11))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_agregAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_agregAActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txt_nomArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nomArtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txt_nomArtActionPerformed
+
+    private void btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegresarActionPerformed
+       jframe_mainOptions mo= new jframe_mainOptions();
+        mo.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_RegresarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,20 +264,20 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton btn_Regresar;
+    private javax.swing.JButton btn_agregA;
+    private javax.swing.JButton btn_eliminA;
+    private javax.swing.JButton btn_modifiA;
+    private javax.swing.JButton btn_nuevo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel jp_acciones;
     private javax.swing.JPanel jp_datos;
     private javax.swing.JPanel jp_listar;
+    private javax.swing.JTextField txt_nomArt;
+    private javax.swing.JTextField txt_precioA;
     // End of variables declaration//GEN-END:variables
 }
