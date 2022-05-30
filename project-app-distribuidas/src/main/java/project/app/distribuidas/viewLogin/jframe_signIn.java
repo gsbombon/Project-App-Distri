@@ -147,6 +147,9 @@ public class jframe_signIn extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "BIENVENIDO ! ");
                 jframe_mainOptions mo = new jframe_mainOptions();
                 mo.setVisible(true);
+                mo.setSize(500,400);
+                mo.setResizable(false);
+                mo.setVisible(true);
                 this.setVisible(false);   
             }else{
                 JOptionPane.showMessageDialog(null, "Usuario no registrado ! ");

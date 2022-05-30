@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Articulo;
 import model.Cliente;
 import static project.app.distribuidas.DataBase.MysqlConnect.ConnectDB;
 
@@ -60,7 +61,18 @@ public class UDPServer {
                     ObjectOutputStream res = new ObjectOutputStream(clienteNuevo.getOutputStream());
                     res.writeObject(confir);
                     break;
+                case "/listarArticulos":
+                     ArrayList<Articulo> Arti = infoArticulo();
+                    System.out.println(Arti.get(2).getNombre());
+                    for (int i = 0; i < Arti.size(); i++) {
+                        System.out.println(Arti.get(i).getId() + " Id ");
+                        System.out.println(Arti.get(i).getNombre() + " Nombre");
+                        System.out.println(Arti.get(i).getPrecio() + " Precio");
+                    }
+                    ObjectOutputStream var = new ObjectOutputStream(clienteNuevo.getOutputStream());
+                    var.writeObject(Arti);
                 default : 
+                    
                     break;
             }
 
@@ -147,4 +159,36 @@ public class UDPServer {
         return listClientes;
 
     }
+    
+    
+     public static ArrayList<Articulo> infoArticulo(){
+        ArrayList<Articulo> arti=new ArrayList();
+        Connection conn = MysqlConnect.ConnectDB();
+        String sql = "Select * from articulo";
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){  
+                Articulo nuevoArt = new Articulo();
+                nuevoArt.setId(rs.getInt(1));
+                nuevoArt.setNombre(rs.getString(2));
+                nuevoArt.setPrecio(rs.getString(3));
+                arti.add(nuevoArt);
+            }
+    
+         } catch (Exception e) {
+             System.out.println("Error");
+
+         }
+     
+          for(int i = 0; i<arti.size(); i++)
+            {
+                System.out.println(arti.get(i).getId()+ " Id");
+                System.out.println(arti.get(i).getNombre()+ " Nombre");
+                System.out.println(arti.get(i).getPrecio()+ " Precio");
+            }
+         return arti;
+     }
+    
+    
 }

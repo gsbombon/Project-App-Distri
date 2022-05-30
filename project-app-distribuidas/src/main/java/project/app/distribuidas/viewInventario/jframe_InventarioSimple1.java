@@ -4,8 +4,17 @@
  */
 package project.app.distribuidas.viewInventario;
 
-import project.app.distribuidas.viewFacturacion.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import project.app.distribuidas.model.Articulo;
 import project.app.distribuidas.viewLogin.jframe_mainOptions;
+import project.app.distribuidas.viewLogin.jframe_signIn;
 
 /**
  *
@@ -16,8 +25,10 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
     /**
      * Creates new form jframe_simple1
      */
+    DefaultTableModel modelo;
     public jframe_InventarioSimple1() {
         initComponents();
+        consultar();
     }
 
     /**
@@ -42,8 +53,11 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
         btn_nuevo = new javax.swing.JButton();
         jp_listar = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table_Art = new javax.swing.JTable();
         btn_Regresar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        txt_buscar = new javax.swing.JTextField();
+        btn_buscarA = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -134,18 +148,15 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
 
         jp_listar.setBorder(javax.swing.BorderFactory.createTitledBorder("Listado"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table_Art.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Codigo", "Nombre", "Precio"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(table_Art);
 
         javax.swing.GroupLayout jp_listarLayout = new javax.swing.GroupLayout(jp_listar);
         jp_listar.setLayout(jp_listarLayout);
@@ -170,42 +181,65 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Buscar");
+
+        btn_buscarA.setText("Buscar");
+        btn_buscarA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_buscarAActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jp_datos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jp_acciones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jp_listar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jp_listar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 189, Short.MAX_VALUE)
                         .addComponent(jLabel1)
-                        .addGap(226, 226, 226))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))))
+                        .addGap(57, 57, 57))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_buscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addComponent(btn_buscarA)
+                .addGap(94, 94, 94))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(9, 9, 9)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_buscarA))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jp_datos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jp_acciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jp_listar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_Regresar, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                .addGap(11, 11, 11))
+                .addComponent(btn_Regresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -222,38 +256,21 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
     private void btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegresarActionPerformed
        jframe_mainOptions mo= new jframe_mainOptions();
         mo.setVisible(true);
+        mo.setSize(500,400);
+        mo.setResizable(false);
+        mo.setVisible(true);
         this.setVisible(false);
+        
     }//GEN-LAST:event_btn_RegresarActionPerformed
+
+    private void btn_buscarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_buscarAActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -262,21 +279,60 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
             }
         });
     }
+    
+     public void consultar() 
+    {
+        String user = "";
+        String pass = "";
+        String login = user+";"+pass+";/listarArticulos";
+        try {
+            // CLIENTE UDP 
+            Socket cliente = new Socket("localhost",1410);
+            ObjectOutputStream mensaje = new ObjectOutputStream(cliente.getOutputStream());
+            mensaje.writeObject(login);
+            ObjectInputStream recepcion = new ObjectInputStream(cliente.getInputStream());
+            ArrayList<Articulo>Arti = (ArrayList<Articulo>) recepcion.readObject();
+            
+        Object[] articulo = new Object[3];
+        modelo = (DefaultTableModel) table_Art.getModel();
+        for(int i = 0;i<3;i++)
+        {
+            articulo [0] = Arti.get(i).getId();
+            articulo [1] = Arti.get(i).getNombre();
+            articulo [2] = Arti.get(i).getPrecio();
+            modelo.addRow(articulo);
+        }
+        table_Art.setModel(modelo);
+           
+            cliente.close();
+        } catch (IOException ex) {
+            Logger.getLogger(jframe_signIn.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) { 
+           Logger.getLogger(jframe_signIn.class.getName()).log(Level.SEVERE, null, ex);
+       } 
+        
+       
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Regresar;
     private javax.swing.JButton btn_agregA;
+    private javax.swing.JButton btn_buscarA;
     private javax.swing.JButton btn_eliminA;
     private javax.swing.JButton btn_modifiA;
     private javax.swing.JButton btn_nuevo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel jp_acciones;
     private javax.swing.JPanel jp_datos;
     private javax.swing.JPanel jp_listar;
+    private javax.swing.JTable table_Art;
+    private javax.swing.JTextField txt_buscar;
     private javax.swing.JTextField txt_nomArt;
     private javax.swing.JTextField txt_precioA;
     // End of variables declaration//GEN-END:variables

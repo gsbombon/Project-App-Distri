@@ -1,11 +1,22 @@
-package project.app.distribuidas.model;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package model;
 
+/**
+ *
+ * @author lizpu
+ */
 public class Articulo {
     private int id;
     private String nombre;
-    private float precio;
-
-    public Articulo(int id, String nombre, float precio) {
+    private String precio;
+    
+    public Articulo(){
+        
+    }
+    public Articulo(int id, String nombre, String precio) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
@@ -19,7 +30,7 @@ public class Articulo {
         return nombre;
     }
 
-    public float getPrecio() {
+    public String getPrecio() {
         return precio;
     }
 
@@ -31,9 +42,8 @@ public class Articulo {
         this.nombre = nombre;
     }
 
-    public void setPrecio(float precio) {
+    public void setPrecio(String precio) {
         this.precio = precio;
     }
-    
-    
+     
 }

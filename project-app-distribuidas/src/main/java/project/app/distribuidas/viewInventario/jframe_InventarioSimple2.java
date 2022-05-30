@@ -177,10 +177,7 @@ public class jframe_InventarioSimple2 extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Còdigo", "Nombre", "Signo"
@@ -276,6 +273,9 @@ public class jframe_InventarioSimple2 extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         jframe_mainOptions mo= new jframe_mainOptions();
+        mo.setVisible(true);
+        mo.setSize(500,400);
+        mo.setResizable(false);
         mo.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton5ActionPerformed
