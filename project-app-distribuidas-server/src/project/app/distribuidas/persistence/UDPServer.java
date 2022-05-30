@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Cliente;
+import static project.app.distribuidas.DataBase.MysqlConnect.ConnectDB;
 
 public class UDPServer {
 
@@ -41,16 +42,23 @@ public class UDPServer {
                 case "/login":
                     String user = parts[1];
                     String pass = parts[2];
-                    //validamos
                     String validacion = validationUser(user, pass);
-                    //enviamos respesta 
                     ObjectOutputStream respuesta = new ObjectOutputStream(clienteNuevo.getOutputStream());
                     respuesta.writeObject(validacion);
                     break;
                 case "/tablaClientes":
-                    ArrayList lista = tablalientes();
-                    respuesta = new ObjectOutputStream(clienteNuevo.getOutputStream());
-                    respuesta.writeObject(lista);
+                    List lista = tablaClientes();
+                    ObjectOutputStream objectOutput = new ObjectOutputStream(clienteNuevo.getOutputStream());
+                    objectOutput.writeObject(lista);
+                    break;
+                case "/addClient":
+                    String ruc = parts[1];
+                    String nombre = parts[2];
+                    String dir = parts[3];
+                    int cuidad = 1;
+                    String confir = addClient(ruc,nombre,dir,cuidad);
+                    ObjectOutputStream res = new ObjectOutputStream(clienteNuevo.getOutputStream());
+                    res.writeObject(confir);
                     break;
                 default : 
                     break;
@@ -63,6 +71,37 @@ public class UDPServer {
 
     }
 
+    
+    static public String addClient(String ruc,String nombre,String dir,int cuidad) throws SQLException{
+        String result = "0";
+        Connection conn = MysqlConnect.ConnectDB();
+        PreparedStatement ps = null;
+        int id = 4;
+        String sql = "INSERT INTO cliente (`CODIGO_CIU`,`RUC_CLI`,`NOM_CLI`,`DIR_CLI`) VALUES (?,?,?,?)";
+        
+        try{
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, cuidad);
+            ps.setString(2, ruc);
+            ps.setString(3, nombre);
+            ps.setString(4, dir);
+            ps.execute();
+            
+            result="1";
+            
+        }catch(SQLException e){
+            System.err.println(e);
+            result="0";
+        }finally{
+            try{
+                conn.close();
+                System.out.println("Cerrar conexion registrar");
+            }catch(SQLException e){
+                System.err.println(e);
+            }
+        }
+        return result;
+    }
     static public String validationUser(String user, String pass) {
         String result = "0";
         Connection conn = MysqlConnect.ConnectDB();
@@ -83,7 +122,7 @@ public class UDPServer {
         return result;
     }
 
-    static ArrayList tablalientes() throws SQLException {
+    static List tablaClientes() throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection conn = MysqlConnect.ConnectDB();
@@ -92,18 +131,16 @@ public class UDPServer {
         ps = conn.prepareStatement(sql);
         rs = ps.executeQuery();
         
-        ArrayList<Cliente> listClientes = new ArrayList<Cliente>();
+        List<Cliente> listClientes = new ArrayList<Cliente>();
+        
         int columns = 4;
         while (rs.next()) {
-            
             Cliente cli = new Cliente();
-            
             cli.setId(rs.getInt("CODIGO_CLI"));
             cli.setRuc(rs.getString("RUC_CLI"));
             cli.setNombre(rs.getString("NOM_CLI"));
             cli.setDireccion(rs.getString("DIR_CLI"));
-            // y así sucesivamente con todos los campos del 
-            // bean BeanNivelLlenado
+
             listClientes.add(cli);
         }
 
