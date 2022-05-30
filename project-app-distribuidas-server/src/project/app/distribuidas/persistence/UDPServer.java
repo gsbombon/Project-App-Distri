@@ -1,6 +1,6 @@
 package project.app.distribuidas.persistence;
 
-import com.mysql.cj.xdevapi.Client;
+
 import project.app.distribuidas.DataBase.MysqlConnect;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -107,13 +107,13 @@ public class UDPServer {
         }finally{
             try{
                 conn.close();
-                System.out.println("Cerrar conexion registrar");
             }catch(SQLException e){
                 System.err.println(e);
             }
         }
         return result;
     }
+    
     static public String validationUser(String user, String pass) {
         String result = "0";
         Connection conn = MysqlConnect.ConnectDB();
