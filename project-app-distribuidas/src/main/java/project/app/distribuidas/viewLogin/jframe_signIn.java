@@ -68,7 +68,7 @@ public class jframe_signIn extends javax.swing.JFrame {
             }
         });
 
-        txt_pass.setText("jPasswordField1");
+        txt_pass.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,15 +130,19 @@ public class jframe_signIn extends javax.swing.JFrame {
     private void btn_signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_signInActionPerformed
         String user = txt_user.getText();
         String pass = txt_pass.getText();
-        String login = user+";"+pass+";/login";
+        String path = "/login";
+        String login = path+";"+user+";"+pass;
         try {
             // CLIENTE UDP
             Socket cliente = new Socket("localhost",4444);
+            // Mensaje que envias 
             ObjectOutputStream mensaje = new ObjectOutputStream(cliente.getOutputStream());
             mensaje.writeObject(login);
-            
+            //Mensaje que receptas
             ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
             String mensaje2 = (String) entrada.readObject();
+            
+            //  FUNCIONALIDAD
             if(mensaje2.equals("1")){
                 JOptionPane.showMessageDialog(null, "BIENVENIDO ! ");
                 jframe_mainOptions mo = new jframe_mainOptions();

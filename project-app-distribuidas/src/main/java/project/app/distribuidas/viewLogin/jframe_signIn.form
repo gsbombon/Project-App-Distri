@@ -137,7 +137,7 @@
     </Component>
     <Component class="javax.swing.JPasswordField" name="txt_pass">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jPasswordField1"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
       </Properties>
     </Component>
   </SubComponents>

@@ -1,5 +1,6 @@
 package project.app.distribuidas.persistence;
 
+import com.mysql.cj.xdevapi.Client;
 import project.app.distribuidas.DataBase.MysqlConnect;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,10 +15,14 @@ import java.net.Socket;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import model.Cliente;
 
 public class UDPServer {
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 
         while (true) {
             // creamos el socker servidor
@@ -29,19 +34,26 @@ public class UDPServer {
             System.out.println("" + mensaje);
             // separamos los datos
             String[] parts = mensaje.split(";");
-            String user = parts[0];
-            String pass = parts[1];
-            String path = parts[2];
+            String path = parts[0];
+            
 
             switch (path) {
                 case "/login":
+                    String user = parts[1];
+                    String pass = parts[2];
                     //validamos
                     String validacion = validationUser(user, pass);
                     //enviamos respesta 
                     ObjectOutputStream respuesta = new ObjectOutputStream(clienteNuevo.getOutputStream());
                     respuesta.writeObject(validacion);
                     break;
-                
+                case "/tablaClientes":
+                    ArrayList lista = tablalientes();
+                    respuesta = new ObjectOutputStream(clienteNuevo.getOutputStream());
+                    respuesta.writeObject(lista);
+                    break;
+                default : 
+                    break;
             }
 
             //cerramos conexion
@@ -54,7 +66,7 @@ public class UDPServer {
     static public String validationUser(String user, String pass) {
         String result = "0";
         Connection conn = MysqlConnect.ConnectDB();
-        String sql = "Select * from users where user=? and pass=?";
+        String sql = "Select * from usuarios where user=? and pass=?";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, user);
@@ -69,5 +81,33 @@ public class UDPServer {
             System.out.println("Error");
         }
         return result;
+    }
+
+    static ArrayList tablalientes() throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = MysqlConnect.ConnectDB();
+        
+        String sql = "SELECT CODIGO_CLI,RUC_CLI,NOM_CLI,DIR_CLI FROM cliente";
+        ps = conn.prepareStatement(sql);
+        rs = ps.executeQuery();
+        
+        ArrayList<Cliente> listClientes = new ArrayList<Cliente>();
+        int columns = 4;
+        while (rs.next()) {
+            
+            Cliente cli = new Cliente();
+            
+            cli.setId(rs.getInt("CODIGO_CLI"));
+            cli.setRuc(rs.getString("RUC_CLI"));
+            cli.setNombre(rs.getString("NOM_CLI"));
+            cli.setDireccion(rs.getString("DIR_CLI"));
+            // y así sucesivamente con todos los campos del 
+            // bean BeanNivelLlenado
+            listClientes.add(cli);
+        }
+
+        return listClientes;
+
     }
 }

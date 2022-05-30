@@ -4,6 +4,12 @@
  */
 package project.app.distribuidas.viewLogin;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import project.app.distribuidas.viewFacturacion.jframe_FacturacionSimple1;
+
 /**
  *
  * @author pocho
@@ -15,6 +21,7 @@ public class jframe_mainOptions extends javax.swing.JFrame {
      */
     public jframe_mainOptions() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -42,7 +49,7 @@ public class jframe_mainOptions extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setText("MENU PRINCIPAL");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, -1, -1));
 
         jMenu1.setText("Inventario");
         jMenuBar1.add(jMenu1);
@@ -80,7 +87,18 @@ public class jframe_mainOptions extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        
+        jframe_FacturacionSimple1 fs1 = null;
+        try {
+            fs1 = new jframe_FacturacionSimple1();
+        } catch (IOException ex) {
+            Logger.getLogger(jframe_mainOptions.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(jframe_mainOptions.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(jframe_mainOptions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        fs1.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
