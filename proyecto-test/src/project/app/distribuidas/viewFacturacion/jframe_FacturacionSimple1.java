@@ -126,7 +126,7 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
 
         txt_ruc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
-        jLabel5.setText("Código:");
+        jLabel5.setText("RUC::");
 
         txt_nombre.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
