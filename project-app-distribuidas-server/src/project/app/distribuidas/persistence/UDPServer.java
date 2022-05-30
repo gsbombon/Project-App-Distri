@@ -54,7 +54,7 @@ public class UDPServer {
     static public String validationUser(String user, String pass) {
         String result = "0";
         Connection conn = MysqlConnect.ConnectDB();
-        String sql = "Select * from users where user=? and pass=?";
+        String sql = "Select * from usuarios where user=? and pass=?";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, user);
