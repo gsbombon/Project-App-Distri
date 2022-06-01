@@ -52,6 +52,7 @@
                                   <Component id="cmb_listFacturas" max="32767" attributes="0"/>
                                   <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
                                   <Component id="btn_clean" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="btn_newFact" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -111,7 +112,9 @@
                       <Component id="txt_numFac" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace type="unrelated" pref="52" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="btn_newFact" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="12" max="32767" attributes="0"/>
                       <Component id="btn_clean" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -218,6 +221,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txt_ruc">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="horizontalAlignment" type="int" value="0"/>
       </Properties>
     </Component>
@@ -326,6 +330,14 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="btn_newFact">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nueva Factura"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_newFactActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

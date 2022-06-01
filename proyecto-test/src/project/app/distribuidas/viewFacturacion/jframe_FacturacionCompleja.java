@@ -80,6 +80,7 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         btn_clean = new javax.swing.JButton();
         btn_modArt = new javax.swing.JButton();
         cmb_ruc = new javax.swing.JComboBox<>();
+        btn_newFact = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,6 +109,7 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setText("Detalle de Facturas");
 
+        txt_ruc.setEditable(false);
         txt_ruc.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jtable_detailsFactura.setModel(new javax.swing.table.DefaultTableModel(
@@ -186,6 +188,13 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
             }
         });
 
+        btn_newFact.setText("Nueva Factura");
+        btn_newFact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_newFactActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -215,7 +224,8 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
                                     .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
                                     .addComponent(cmb_listFacturas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btn_clean, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(btn_clean, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_newFact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(19, 19, 19))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -256,7 +266,9 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
                         .addGap(31, 31, 31)
                         .addComponent(txt_numFac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 52, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_newFact)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                         .addComponent(btn_clean)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -430,8 +442,27 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modArtActionPerformed
 
     private void cmb_rucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_rucActionPerformed
-        
+        this.setIdCliente(idCliente);
     }//GEN-LAST:event_cmb_rucActionPerformed
+
+    private void btn_newFactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_newFactActionPerformed
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = MysqlConnect.ConnectDB();
+        
+        String sql = "INSERT INTO cabecera_factura(CODIGO_CLI,FECHA_CABECERA_FACTU) VALUES (?,CURDATE());";        
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, this.getIdCliente());
+            ps.execute();
+            System.out.println(""+ps.toString());
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(jframe_FacturacionCompleja.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_btn_newFactActionPerformed
 
     private void cargarCmbFacturas(String ruc) throws SQLException{
         
@@ -592,6 +623,7 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
     private javax.swing.JButton btn_clean;
     private javax.swing.JButton btn_delArt;
     private javax.swing.JButton btn_modArt;
+    private javax.swing.JButton btn_newFact;
     private javax.swing.JComboBox<String> cmb_listFacturas;
     private javax.swing.JComboBox<String> cmb_ruc;
     private javax.swing.JButton jButton1;
