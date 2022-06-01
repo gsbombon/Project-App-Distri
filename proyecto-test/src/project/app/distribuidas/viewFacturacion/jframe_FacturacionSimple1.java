@@ -391,7 +391,6 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
         if (!"".equals(ruc_buscar)) {
             where = "WHERE RUC_CLI = '" + ruc_buscar + "'";
         }
-
         try {
             DefaultTableModel modelo = new DefaultTableModel();
             this.jtable_clientes.setModel(modelo);
