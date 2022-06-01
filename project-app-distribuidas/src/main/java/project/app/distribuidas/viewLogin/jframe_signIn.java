@@ -131,7 +131,7 @@ public class jframe_signIn extends javax.swing.JFrame {
         String user = txt_user.getText();
         String pass = txt_pass.getText();
         String path = "/login";
-        String login = path+";"+user+";"+pass;
+        String login = user+";"+pass+";"+path;
         try {
             // CLIENTE UDP
             Socket cliente = new Socket("localhost",4444);

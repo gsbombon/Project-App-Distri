@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import project.app.distribuidas.model.Articulo;
+
 import project.app.distribuidas.viewLogin.jframe_mainOptions;
 import project.app.distribuidas.viewLogin.jframe_signIn;
 
@@ -26,6 +27,7 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
      * Creates new form jframe_simple1
      */
     DefaultTableModel modelo;
+
     public jframe_InventarioSimple1() {
         initComponents();
         consultar();
@@ -254,13 +256,13 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_nomArtActionPerformed
 
     private void btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegresarActionPerformed
-       jframe_mainOptions mo= new jframe_mainOptions();
+        jframe_mainOptions mo = new jframe_mainOptions();
         mo.setVisible(true);
-        mo.setSize(500,400);
+        mo.setSize(500, 400);
         mo.setResizable(false);
         mo.setVisible(true);
         this.setVisible(false);
-        
+
     }//GEN-LAST:event_btn_RegresarActionPerformed
 
     private void btn_buscarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarAActionPerformed
@@ -279,42 +281,37 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
             }
         });
     }
-    
-     public void consultar() 
-    {
-        String user = "";
-        String pass = "";
-        String login = user+";"+pass+";/listarArticulos";
+
+    public void consultar() {
+
+        String login = "" + ";" + "" + ";listarArticulos";
         try {
-            // CLIENTE UDP 
-            Socket cliente = new Socket("localhost",1410);
-            ObjectOutputStream mensaje = new ObjectOutputStream(cliente.getOutputStream());
-            mensaje.writeObject(login);
-            ObjectInputStream recepcion = new ObjectInputStream(cliente.getInputStream());
-            ArrayList<Articulo>Arti = (ArrayList<Articulo>) recepcion.readObject();
-            
-        Object[] articulo = new Object[3];
-        modelo = (DefaultTableModel) table_Art.getModel();
-        for(int i = 0;i<3;i++)
-        {
-            articulo [0] = Arti.get(i).getId();
-            articulo [1] = Arti.get(i).getNombre();
-            articulo [2] = Arti.get(i).getPrecio();
-            modelo.addRow(articulo);
-        }
-        table_Art.setModel(modelo);
-           
-            cliente.close();
-        } catch (IOException ex) {
+            try (//             CLIENTE UDP
+                     Socket cliente = new Socket("localhost", 4444)) {
+                ObjectOutputStream mensaje = new ObjectOutputStream(cliente.getOutputStream());
+                mensaje.writeObject(login);
+                ObjectInputStream rep = new ObjectInputStream(cliente.getInputStream());
+                ArrayList<Articulo> Ar = (ArrayList<Articulo>) rep.readObject();
+                Object[] articulo = new Object[3];
+                modelo = (DefaultTableModel) table_Art.getModel();
+                for (int i = 0; i < 2; i++) {
+                    articulo[0] = "1";
+                    articulo[1] = "2";
+                    articulo[2] = "3";
+                    modelo.addRow(articulo);
+                }
+
+                table_Art.setModel(modelo);
+//           ObjectInputStream recepcion = new ObjectInputStream(cliente.getInputStream());
+//           ArrayList<Articulo> Arti = (ArrayList<Articulo>) recepcion.readObject();
+
+            }
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(jframe_signIn.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) { 
-           Logger.getLogger(jframe_signIn.class.getName()).log(Level.SEVERE, null, ex);
-       } 
-        
-       
+        }
+
     }
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Regresar;

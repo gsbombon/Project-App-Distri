@@ -4,11 +4,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author lizpu
  */
-public class Articulo {
+public class Articulo  implements Serializable{
     private int id;
     private String nombre;
     private String precio;
