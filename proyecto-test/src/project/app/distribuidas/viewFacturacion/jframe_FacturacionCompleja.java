@@ -13,6 +13,26 @@ import project.app.distribuidas.viewLogin.jframe_mainOptions;
 
 public class jframe_FacturacionCompleja extends javax.swing.JFrame {
 
+    private int idCabecera;
+    private int idDetalle;
+
+    public int getIdCabecera() {
+        return idCabecera;
+    }
+
+    public int getIdDetalle() {
+        return idDetalle;
+    }
+
+    public void setIdCabecera(int idCabecera) {
+        this.idCabecera = idCabecera;
+    }
+
+    public void setIdDetalle(int idDetalle) {
+        this.idDetalle = idDetalle;
+    }
+    
+    
     public jframe_FacturacionCompleja() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -248,9 +268,16 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btn_addArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addArtActionPerformed
-        jframe_addArt fa = new jframe_addArt();
-        fa.setVisible(true);
-        this.setVisible(false);
+        String ruc = this.txt_ruc.getText();
+        jframe_addArt fa;
+        try {
+            fa = new jframe_addArt(this.getIdCabecera(),this.codDetalle(ruc, this.getIdCabecera()));
+            fa.setVisible(true);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(jframe_FacturacionCompleja.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_btn_addArtActionPerformed
 
     private void cmb_listFacturasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmb_listFacturasMouseClicked
@@ -260,12 +287,12 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
     private void cmb_listFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_listFacturasActionPerformed
         String ruc = this.txt_ruc.getText();
         String dateFact = this.cmb_listFacturas.getSelectedItem().toString();
-        String[] partes = dateFact.split("|");
-        int idCabecera = Integer.parseInt(partes[0]);
+        String[] partes = dateFact.split("|"); 
+        this.setIdCabecera(Integer.parseInt(partes[0]));
         
         try {
-            this.cargarCabecera(ruc,idCabecera);
-            this.cargarDetalle(ruc,idCabecera);
+            this.cargarCabecera(ruc,this.getIdCabecera());
+            this.cargarDetalle(ruc,this.getIdCabecera());
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(jframe_FacturacionCompleja.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }        
@@ -311,12 +338,24 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         }
     }
     
-    public int numCabecera(String ruc){
-        int numCabecera = 0;
+    public int codDetalle (String ruc,int idCabecera) throws SQLException{
+        int codDetalle =0;
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection conn = MysqlConnect.ConnectDB();
-        return numCabecera;
+        String sql = "SELECT CODIGO_DETALLE_COMPROBANTE_FACTURA\n" +
+                        "FROM detalle_comprobante_factura df,cliente c,cabecera_factura cf\n" +
+                        "WHERE  df.NUMERO_CABECERA_FACTU = cf.NUMERO_CABECERA_FACTU AND c.CODIGO_CLI = cf.CODIGO_CLI AND c.RUC_CLI = ? AND df.NUMERO_CABECERA_FACTU=?\n" +
+                        "LIMIT 1;";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, ruc);
+        ps.setInt(2, idCabecera);
+        rs = ps.executeQuery();
+        
+        while(rs.next()){
+            codDetalle = rs.getInt("CODIGO_DETALLE_COMPROBANTE_FACTURA");
+        }
+        return codDetalle;
     }
     
     private void cargarDetalle(String ruc, int idCabecera) throws SQLException{
