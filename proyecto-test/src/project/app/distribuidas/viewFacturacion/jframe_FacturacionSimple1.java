@@ -491,7 +491,7 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
             String mensaje2 = (String) entrada.readObject();
             
              if(mensaje2.equals("1")){
-                JOptionPane.showMessageDialog(null, "CREADO ! ");                
+                JOptionPane.showMessageDialog(null, "CREADO ! ");
                 txt_ruc.setText("");
                 txt_nombre.setText("");
                 txt_dir.setText("");

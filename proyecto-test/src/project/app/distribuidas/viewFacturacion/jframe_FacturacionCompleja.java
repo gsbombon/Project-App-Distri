@@ -1,12 +1,17 @@
 package project.app.distribuidas.viewFacturacion;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
+import java.net.Socket;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import project.app.distribuidas.db.MysqlConnect;
 import project.app.distribuidas.viewLogin.jframe_mainOptions;
@@ -60,6 +65,8 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         btn_delArt = new javax.swing.JButton();
         cmb_listFacturas = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
+        btn_clean = new javax.swing.JButton();
+        btn_modArt = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -127,6 +134,11 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         });
 
         btn_delArt.setText("Quitar Articulo");
+        btn_delArt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_delArtActionPerformed(evt);
+            }
+        });
 
         cmb_listFacturas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -141,6 +153,20 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
 
         jLabel6.setText("Facturas registradas");
 
+        btn_clean.setText("Limpiar");
+        btn_clean.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cleanActionPerformed(evt);
+            }
+        });
+
+        btn_modArt.setText("Modificar");
+        btn_modArt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modArtActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -153,7 +179,8 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btn_addArt, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                                    .addComponent(btn_delArt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(btn_delArt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_modArt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
@@ -167,7 +194,8 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
                                     .addComponent(cmb_listFacturas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_clean, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(19, 19, 19))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -206,14 +234,16 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
                         .addComponent(txt_numFac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(5, 5, 5)
-                        .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_clean)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
+                        .addGap(2, 2, 2)
                         .addComponent(txt_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(5, 5, 5)
                         .addComponent(jLabel6)
                         .addGap(9, 9, 9)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -224,8 +254,10 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_addArt)
-                        .addGap(31, 31, 31)
-                        .addComponent(btn_delArt)))
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_delArt)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_modArt)))
                 .addGap(29, 29, 29)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
@@ -254,6 +286,7 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
     private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
         String ruc = this.txt_ruc.getText();
         try {
+            this.cmb_listFacturas.removeAllItems();
             this.cargarCmbFacturas(ruc);
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(jframe_FacturacionCompleja.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -271,7 +304,7 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         String ruc = this.txt_ruc.getText();
         jframe_addArt fa;
         try {
-            fa = new jframe_addArt(this.getIdCabecera(),this.codDetalle(ruc, this.getIdCabecera()));
+            fa = new jframe_addArt(this.getIdCabecera());
             fa.setVisible(true);
             this.setVisible(false);
         } catch (SQLException ex) {
@@ -297,6 +330,77 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(jframe_FacturacionCompleja.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }        
     }//GEN-LAST:event_cmb_listFacturasActionPerformed
+
+    private void btn_delArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_delArtActionPerformed
+        int Fila = this.jtable_detailsFactura.getSelectedRow();
+        int codArt = Integer.parseInt(this.jtable_detailsFactura.getValueAt(Fila, 0).toString());
+        int codCab =  this.getIdCabecera();
+        int codDetalle = this.getIdCabecera();
+        
+        String path = "/delArtFac";
+        String delCliente = path+";"+codArt+";"+codCab+";"+codDetalle;
+        
+        try {
+            Socket cliente = new Socket("localhost",4444);
+            ObjectOutputStream mensaje = new ObjectOutputStream(cliente.getOutputStream());
+            mensaje.writeObject(delCliente);
+
+            ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
+            String mensaje2 = (String) entrada.readObject();
+            
+             if(mensaje2.equals("1")){
+                JOptionPane.showMessageDialog(null, "Articulo Removido ! ");                
+            }else{
+                JOptionPane.showMessageDialog(null, "ERROR ! \n Articulo no eliminado ! ");
+
+            }
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+    }//GEN-LAST:event_btn_delArtActionPerformed
+
+    private void btn_cleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cleanActionPerformed
+        this.txt_ciudad.setText("");
+        this.txt_fecha.setText("");
+        this.txt_numFac.setText("");
+        this.txt_ruc.setText("");
+        this.cmb_listFacturas.removeAllItems();
+        this.jtable_detailsFactura.removeAll();
+    }//GEN-LAST:event_btn_cleanActionPerformed
+
+    private void btn_modArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modArtActionPerformed
+        int Fila = this.jtable_detailsFactura.getSelectedRow();
+        int codArt = Integer.parseInt(this.jtable_detailsFactura.getValueAt(Fila, 0).toString());
+        int codCab =  this.getIdCabecera();
+        int codDetalle = this.getIdCabecera();
+        int cantidadNew = Integer.parseInt(this.jtable_detailsFactura.getValueAt(Fila, 2).toString());
+        
+        String path = "/modArtFac";
+        String delCliente = path+";"+codArt+";"+codCab+";"+codDetalle+";"+cantidadNew;
+        
+        try {
+            Socket cliente = new Socket("localhost",4444);
+            ObjectOutputStream mensaje = new ObjectOutputStream(cliente.getOutputStream());
+            mensaje.writeObject(delCliente);
+
+            ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
+            String mensaje2 = (String) entrada.readObject();
+            
+             if(mensaje2.equals("1")){
+                JOptionPane.showMessageDialog(null, "Cantidad actualizada ! ");                
+            }else{
+                JOptionPane.showMessageDialog(null, "Cantidad elegida, fuera de stock ! ");
+
+            }
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            System.out.println(""+ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_modArtActionPerformed
 
     private void cargarCmbFacturas(String ruc) throws SQLException{
         
@@ -365,7 +469,7 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         ResultSet rs = null;
         Connection conn = MysqlConnect.ConnectDB();
         
-        String sql = "SELECT a.NOMBRE_ART, df.CANTIDAD_DETALLE_COMPROBANTE_FACTURA, df.PRECIO__DETALLE_COMPROBANTE_FACTURA,(df.CANTIDAD_DETALLE_COMPROBANTE_FACTURA * df.PRECIO__DETALLE_COMPROBANTE_FACTURA)  AS MULTI\n" +
+        String sql = "SELECT a.CODIGO_ART,a.NOMBRE_ART, df.CANTIDAD_DETALLE_COMPROBANTE_FACTURA, df.PRECIO__DETALLE_COMPROBANTE_FACTURA,(df.CANTIDAD_DETALLE_COMPROBANTE_FACTURA * df.PRECIO__DETALLE_COMPROBANTE_FACTURA)  AS MULTI\n" +
                         "FROM detalle_comprobante_factura df,articulo a,cliente c,cabecera_factura cf\n" +
                             "WHERE df.NUMERO_CABECERA_FACTU = cf.NUMERO_CABECERA_FACTU AND df.CODIGO_ART = a.CODIGO_ART AND cf.CODIGO_CLI = c.CODIGO_CLI AND c.RUC_CLI=?  AND cf.NUMERO_CABECERA_FACTU = ?";
         
@@ -378,11 +482,12 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
         int cantidadColumnas = rsMd.getColumnCount();
 
+        modelo.addColumn("CODIGO");
         modelo.addColumn("ARTICULO");
-        modelo.addColumn("PRECIO U.");
         modelo.addColumn("CANTIDAD");
+        modelo.addColumn("PRECIO U.");
         modelo.addColumn("PRECIO TOTAL");
-        int[] anchos = {200, 150,150, 300};
+        int[] anchos = {150, 200, 150,150, 300};
         for (int i = 0; i < this.jtable_detailsFactura.getColumnCount(); i++) {
             this.jtable_detailsFactura.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
         }
@@ -434,7 +539,9 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_addArt;
     private javax.swing.JButton btn_buscar;
+    private javax.swing.JButton btn_clean;
     private javax.swing.JButton btn_delArt;
+    private javax.swing.JButton btn_modArt;
     private javax.swing.JComboBox<String> cmb_listFacturas;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

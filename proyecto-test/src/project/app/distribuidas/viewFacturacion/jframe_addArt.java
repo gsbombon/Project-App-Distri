@@ -1,18 +1,55 @@
 package project.app.distribuidas.viewFacturacion;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import project.app.distribuidas.db.MysqlConnect;
 
 public class jframe_addArt extends javax.swing.JFrame {
 
-    public jframe_addArt(int idCabecera,int idDetalle) throws SQLException {
+    private int idCabecera;
+    private int idProduct; 
+    private String precio;
+
+    public void setPrecio(String precio) {
+        this.precio = precio;
+    }
+
+    public String getPrecio() {
+        return precio;
+    }
+    
+    public int getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(int idProduct) {
+        this.idProduct = idProduct;
+    }
+    
+    
+    public int getIdCabecera() {
+        return idCabecera;
+    }
+
+    public void setIdCabecera(int idCabecera) {
+        this.idCabecera = idCabecera;
+    }
+    
+    
+    public jframe_addArt(int idCabecera) throws SQLException {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setIdCabecera(idCabecera);
+        System.out.println("id factura"+this.getIdCabecera());
         
         this.cargarCmbArticulos();
         
@@ -171,7 +208,36 @@ public class jframe_addArt extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void btn_addArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addArtActionPerformed
+
+        int codArticulo = this.getIdProduct();
+        int numCabecera = this.getIdCabecera();
+        int codDetalle = this.getIdCabecera();
+        int cantidad = this.sld_cantidad.getValue();
+        String precio = this.getPrecio();
         
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = MysqlConnect.ConnectDB();
+        
+        String sql = " INSERT INTO detalle_comprobante_factura VALUES (?,?,?,?,?); ";        
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, codArticulo);
+            ps.setInt(2, numCabecera);
+            ps.setInt(3, codDetalle);
+            ps.setInt(4, cantidad);
+            ps.setString(5, precio);
+            System.out.println(""+ps.toString());
+            ps.execute();
+            
+            JOptionPane.showMessageDialog(null, "Articulo agredado \n CORRECTAMENTE ! ");
+            this.setVisible(false);
+            jframe_FacturacionCompleja fc = new jframe_FacturacionCompleja();
+            fc.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(jframe_addArt.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al agregar articulo ! ");
+        }
         
         
 
@@ -181,6 +247,7 @@ public class jframe_addArt extends javax.swing.JFrame {
         String artSelect = this.cmb_articulo.getSelectedItem().toString();
         String[] partes = artSelect.split("|"); 
         int idProduct = Integer.parseInt(partes[0]);
+        this.setIdProduct(idProduct);
         try {
             float precio = priceArticulo(idProduct);
             this.txt_price.setText("$. "+precio);
@@ -219,6 +286,7 @@ public class jframe_addArt extends javax.swing.JFrame {
     
     private float priceArticulo(int idProducto) throws SQLException{
         float price=0;
+        String Sprince;
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection conn = MysqlConnect.ConnectDB();
@@ -231,6 +299,8 @@ public class jframe_addArt extends javax.swing.JFrame {
         while(rs.next()){
             price = rs.getFloat("PRECIO_ART");
         }
+        
+        this.setPrecio(String.valueOf(price));
         return price;
     }
     

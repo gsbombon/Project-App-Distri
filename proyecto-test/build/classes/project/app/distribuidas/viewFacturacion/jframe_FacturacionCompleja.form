@@ -32,6 +32,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="btn_addArt" pref="125" max="32767" attributes="0"/>
                                   <Component id="btn_delArt" max="32767" attributes="0"/>
+                                  <Component id="btn_modArt" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jScrollPane1" min="-2" pref="521" max="-2" attributes="0"/>
@@ -50,6 +51,7 @@
                                   <Component id="btn_buscar" pref="197" max="32767" attributes="0"/>
                                   <Component id="cmb_listFacturas" max="32767" attributes="0"/>
                                   <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="btn_clean" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -107,16 +109,18 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
                       <Component id="btn_buscar" min="-2" pref="67" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btn_clean" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="23" pref="23" max="-2" attributes="0"/>
+                      <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
                       <Component id="txt_fecha" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                   </Group>
@@ -130,8 +134,10 @@
                   <Component id="jScrollPane1" min="-2" pref="183" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="btn_addArt" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btn_delArt" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="btn_modArt" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
@@ -267,6 +273,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Quitar Articulo"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_delArtActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="cmb_listFacturas">
       <Properties>
@@ -286,6 +295,22 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Facturas registradas"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btn_clean">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Limpiar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_cleanActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btn_modArt">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Modificar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_modArtActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
