@@ -20,6 +20,17 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
 
     private int idCabecera;
     private int idDetalle;
+    private int idCliente;
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+    
+    
 
     public int getIdCabecera() {
         return idCabecera;
@@ -38,9 +49,10 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
     }
     
     
-    public jframe_FacturacionCompleja() {
+    public jframe_FacturacionCompleja() throws SQLException {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.cargarCmbRuc();
     }
 
     @SuppressWarnings("unchecked")
@@ -67,6 +79,7 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         btn_clean = new javax.swing.JButton();
         btn_modArt = new javax.swing.JButton();
+        cmb_ruc = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -167,6 +180,12 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
             }
         });
 
+        cmb_ruc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_rucActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -184,12 +203,13 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txt_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txt_numFac, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txt_ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(txt_ruc, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txt_ruc, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(53, 53, 53)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txt_fecha, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                                    .addComponent(txt_numFac, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                                    .addComponent(txt_ciudad, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                                    .addComponent(cmb_ruc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
@@ -227,15 +247,16 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txt_ruc, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmb_ruc))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txt_ruc, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(txt_numFac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 52, Short.MAX_VALUE)
                         .addComponent(btn_clean)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -284,7 +305,13 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_ciudadActionPerformed
 
     private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
-        String ruc = this.txt_ruc.getText();
+        //String ruc = this.txt_ruc.getText();
+        String ruc_cmb = this.cmb_ruc.getSelectedItem().toString();
+        String[] parts = ruc_cmb.split(" | ");
+        int idCliente = Integer.parseInt(parts[0]);
+        this.setIdCliente(idCliente);
+        String ruc = parts[2];
+        this.txt_ruc.setText(ruc);
         try {
             this.cmb_listFacturas.removeAllItems();
             this.cargarCmbFacturas(ruc);
@@ -367,7 +394,7 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         this.txt_numFac.setText("");
         this.txt_ruc.setText("");
         this.cmb_listFacturas.removeAllItems();
-        this.jtable_detailsFactura.removeAll();
+        this.jtable_detailsFactura.setModel(new DefaultTableModel());
     }//GEN-LAST:event_btn_cleanActionPerformed
 
     private void btn_modArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modArtActionPerformed
@@ -402,6 +429,10 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_modArtActionPerformed
 
+    private void cmb_rucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_rucActionPerformed
+        
+    }//GEN-LAST:event_cmb_rucActionPerformed
+
     private void cargarCmbFacturas(String ruc) throws SQLException{
         
         PreparedStatement ps = null;
@@ -418,6 +449,21 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         
         while(rs.next()){
             this.cmb_listFacturas.addItem((rs.getString("NUMERO_CABECERA_FACTU"))+" | "+ rs.getString("FECHA_CABECERA_FACTU"));
+        }
+    }
+    
+    private void cargarCmbRuc() throws SQLException{
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = MysqlConnect.ConnectDB();
+        
+        String sql = "SELECT CODIGO_CLI, RUC_CLI FROM cliente;";        
+        ps = conn.prepareStatement(sql);
+        rs = ps.executeQuery();     
+        
+        while(rs.next()){
+            this.cmb_ruc.addItem((rs.getString("CODIGO_CLI"))+" | "+ rs.getString("RUC_CLI"));
         }
     }
     
@@ -531,7 +577,11 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new jframe_FacturacionCompleja().setVisible(true);
+                try {
+                    new jframe_FacturacionCompleja().setVisible(true);
+                } catch (SQLException ex) {
+                    java.util.logging.Logger.getLogger(jframe_FacturacionCompleja.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -543,6 +593,7 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
     private javax.swing.JButton btn_delArt;
     private javax.swing.JButton btn_modArt;
     private javax.swing.JComboBox<String> cmb_listFacturas;
+    private javax.swing.JComboBox<String> cmb_ruc;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
