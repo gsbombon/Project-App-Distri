@@ -314,7 +314,6 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        
         int Fila = this.jtable_clientes.getSelectedRow();
         int codigo = Integer.parseInt(this.jtable_clientes.getValueAt(Fila, 0).toString());
                 
@@ -342,8 +341,7 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
             Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        } 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnBuscar(){
@@ -387,7 +385,6 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
             Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         String ruc_buscar = txt_rucCli.getText();
         String where = "";
