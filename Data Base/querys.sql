@@ -4,3 +4,10 @@ SELECT * FROM lgh.usuarios;
 SELECT NUMERO_CABECERA_FACTU,FECHA_CABECERA_FACTU,NOMBRE_CIU
 FROM cabecera_factura cf,cliente c,ciudad ciu
 WHERE c.CODIGO_CLI = cf.CODIGO_CLI AND c.CODIGO_CIU = ciu.CODIGO_CIU AND c.RUC_CLI = '1726525155'
+
+
+/* Detalle de factura por cliente buscado por su RUC */
+
+SELECT a.NOMBRE_ART, df.CANTIDAD_DETALLE_COMPROBANTE_FACTURA, df.PRECIO__DETALLE_COMPROBANTE_FACTURA
+FROM detalle_comprobante_factura df,articulo a,cliente c,cabecera_factura cf
+WHERE df.NUMERO_CABECERA_FACTU = cf.NUMERO_CABECERA_FACTU AND df.CODIGO_ART = a.CODIGO_ART AND cf.CODIGO_CLI = c.CODIGO_CLI AND c.RUC_CLI='234534'
