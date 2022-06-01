@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import project.app.distribuidas.db.MysqlConnect;
 import project.app.distribuidas.model.Cliente;
+import project.app.distribuidas.model.Cobrador;
 
 /**
  *
@@ -33,16 +34,39 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
     
     public jframe_FacturacionSimple1() throws IOException, ClassNotFoundException, SQLException {
         initComponents();
-        this.setLocationRelativeTo(null);
-        modelo.addColumn("RUC");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Direccion");
-        jtable_clientes.setModel(modelo);
-        
-        
-        
+        this.setLocationRelativeTo(null);       
     }
 
+    public void consultar() {
+        String login = "/tablaCobrador";
+        try {
+            // CLIENTE UDP 
+            Socket cliente = new Socket("localhost",4444);
+            ObjectOutputStream mensaje = new ObjectOutputStream(cliente.getOutputStream());
+            mensaje.writeObject(login);
+            ObjectInputStream recepcion = new ObjectInputStream(cliente.getInputStream());
+            ArrayList<Cobrador> Cobras = (ArrayList<Cobrador>) recepcion.readObject();
+            
+            Object[] cobrador = new Object[4];
+            modelo = (DefaultTableModel) jtable_clientes.getModel();
+            for(int i = 0;i<Cobras.size();i++){
+                cobrador [0] = Cobras.get(i).getId_cobrador();
+                cobrador [1] = Cobras.get(i).getCedula_cobrador();
+                cobrador [2] = Cobras.get(i).getNombre_cobrador();
+                cobrador [3] = Cobras.get(i).getDireccion_cobrador();
+                modelo.addRow(cobrador);
+            }
+            jtable_clientes.setModel(modelo);
+
+                cliente.close();
+        } catch (IOException ex) {
+            Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) { 
+           Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
+       } 
+        
+       
+    }
     
     public void loadTable() throws IOException, ClassNotFoundException, SQLException{
         String accion = "/tablaClientes";
@@ -89,7 +113,7 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
         txt_ruc = new javax.swing.JTextField();
-        txtCampo = new javax.swing.JTextField();
+        txt_rucCli = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txt_nombre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -183,7 +207,6 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
         txt_cuidad.setEditable(false);
         txt_cuidad.setEnabled(false);
 
-        txt_id.setEditable(false);
         txt_id.setEnabled(false);
         txt_id.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,7 +233,7 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
                         .addGap(7, 7, 7)
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
-                        .addComponent(txtCampo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_rucCli, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnBuscar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -255,7 +278,7 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_rucCli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(btnBuscar)
                     .addComponent(txt_cuidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -291,63 +314,111 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        PreparedStatement ps = null;
+        
+        int Fila = this.jtable_clientes.getSelectedRow();
+        int codigo = Integer.parseInt(this.jtable_clientes.getValueAt(Fila, 0).toString());
+                
+        String path = "/delCliente";
+        String delCliente = path+";"+codigo;
+        
         try {
+            Socket cliente = new Socket("localhost",4444);
+            ObjectOutputStream mensaje = new ObjectOutputStream(cliente.getOutputStream());
+            mensaje.writeObject(delCliente);
 
-            Connection conn = MysqlConnect.ConnectDB();
+            ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
+            String mensaje2 = (String) entrada.readObject();
+            
+             if(mensaje2.equals("1")){
+                JOptionPane.showMessageDialog(null, "Registro eliminado CORRECTAMENTE ! ");                
+                txt_ruc.setText("");
+                txt_nombre.setText("");
+                txt_dir.setText("");
+            }else{
+                JOptionPane.showMessageDialog(null, "ERRO ! \n Registro no eliminado ! ");
 
-            int Fila = this.jtable_clientes.getSelectedRow();
-            int codigo = Integer.parseInt(this.jtable_clientes.getValueAt(Fila, 0).toString());
-
-            ps = conn.prepareStatement("DELETE FROM cliente WHERE CODIGO_CLI=?");
-            ps.setInt(1, codigo);
-            ps.execute();
-
-            //modelo.removeRow(Fila);
-            JOptionPane.showMessageDialog(null, "Producto Eliminado");
-            limpiar();
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al Eliminar Producto");
-            System.out.println(ex.toString());
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void btnBuscar(){
+        String ruc_buscar = txt_rucCli.getText();
+        String path = "/findClientes";
+        String buscar = path+";"+ruc_buscar;
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+        jtable_clientes.setModel(modelo);
+        
+        modelo.addColumn("ID");
+        modelo.addColumn("Cuidad");
+        modelo.addColumn("RUC");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Direccion");
+        try {
+            Socket cliente = new Socket("localhost",4444);
+            ObjectOutputStream mensaje = new ObjectOutputStream(cliente.getOutputStream());
+            mensaje.writeObject(buscar);
+
+            ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
+            ArrayList<Cliente> clientes = (ArrayList<Cliente>) entrada.readObject();
+            
+            Object[] clienteObj = new Object[5];
+            modelo = (DefaultTableModel) this.jtable_clientes.getModel();
+            for(int i=0;i<clientes.size();i++){
+                clienteObj[0] = clientes.get(i).getId();
+                clienteObj[1] = clientes.get(i).getId_cuidad();
+                clienteObj[2] = clientes.get(i).getRuc();
+                clienteObj[3] = clientes.get(i).getNombre();
+                clienteObj[4] = clientes.get(i).getDireccion();
+                modelo.addRow(clienteObj);
+            }
+            
+            this.jtable_clientes.setModel(modelo);
+            
+            cliente.close();
+        } catch (IOException ex) {
+            Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        String campo = txtCampo.getText();
+        String ruc_buscar = txt_rucCli.getText();
         String where = "";
-        if (!"".equals(campo)) {
-            where = "WHERE RUC_CLI = '" + campo + "'";
+        if (!"".equals(ruc_buscar)) {
+            where = "WHERE RUC_CLI = '" + ruc_buscar + "'";
         }
 
         try {
             DefaultTableModel modelo = new DefaultTableModel();
-            jtable_clientes.setModel(modelo);
-
+            this.jtable_clientes.setModel(modelo);
             PreparedStatement ps = null;
             ResultSet rs = null;
             Connection conn = MysqlConnect.ConnectDB();
-            
 
             String sql = "SELECT * FROM cliente " + where;
             System.out.println(sql);
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
-            
 
             ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
             int cantidadColumnas = rsMd.getColumnCount();
 
             modelo.addColumn("Código");
-            modelo.addColumn("Cuidad");
-            modelo.addColumn("RUC");
+            modelo.addColumn("Ciudad");
+            modelo.addColumn("RUC");    
             modelo.addColumn("Nombre");
             modelo.addColumn("Direccion");
-            int[] anchos = {20, 50, 50, 50, 100};
+            int[] anchos = {50, 50, 150, 150, 150};
             for (int i = 0; i < this.jtable_clientes.getColumnCount(); i++) {
-                jtable_clientes.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+                this.jtable_clientes.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
             }
-
             while (rs.next()) {
                 Object[] filas = new Object[cantidadColumnas];
                 for (int i = 0; i < cantidadColumnas; i++) {
@@ -359,6 +430,53 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
         } catch (Exception ex) {
             System.err.println(ex.toString());
         }
+        
+        
+        /* WITH SOCKET 
+        String path = "/findClientes";
+        String buscar = path+";"+ruc_buscar;
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+        jtable_clientes.setModel(modelo);
+        
+        modelo.addColumn("ID");
+        modelo.addColumn("Cuidad");
+        modelo.addColumn("RUC");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Direccion");
+        try {
+            Socket cliente = new Socket("localhost",4444);
+            ObjectOutputStream mensaje = new ObjectOutputStream(cliente.getOutputStream());
+            mensaje.writeObject(buscar);
+
+            ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
+            ArrayList<Cliente> arrayCli = (ArrayList<Cliente>) entrada.readObject();
+            
+            for(int i = 0; i < arrayCli.size(); i++) {
+                System.out.println(arrayCli.get(i).getNombre());
+                System.out.println(arrayCli.get(i).getRuc());
+            }
+            
+            Object[] clienteObj = new Object[5];
+            modelo = (DefaultTableModel) this.jtable_clientes.getModel();
+            for(int i=0;i<arrayCli.size();i++){
+                clienteObj[0] = arrayCli.get(i).getId();
+                clienteObj[1] = arrayCli.get(i).getId_cuidad();
+                clienteObj[2] = arrayCli.get(i).getRuc();
+                clienteObj[3] = arrayCli.get(i).getNombre();
+                clienteObj[4] = arrayCli.get(i).getDireccion();
+                modelo.addRow(clienteObj);
+            }
+            
+            this.jtable_clientes.setModel(modelo);
+            
+            cliente.close();
+        } catch (IOException ex) {
+            Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        */
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -418,27 +536,39 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jtable_clientesMouseClicked
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        int Fila = this.jtable_clientes.getSelectedRow();
-
-        PreparedStatement ps = null;
+        // int Fila = this.jtable_clientes.getSelectedRow();
+        int id = Integer.parseInt(txt_id.getText());
+        int id_cuidad = Integer.parseInt(this.txt_cuidad.getText());
+        String ruc = txt_ruc.getText();
+        String nombre = txt_nombre.getText();
+        String dir = txt_dir.getText();
+        String path = "/modCliente";
+        String modCli = path+";"+id+";"+id_cuidad+";"+ruc+";"+nombre+";"+dir;
+        
         try {
-            Connection conn = MysqlConnect.ConnectDB();
-            ps = conn.prepareStatement("UPDATE cliente SET CODIGO_CIU=?, RUC_CLI=?, NOM_CLI=?, DIR_CLI=? WHERE CODIGO_CLI=?");
+            Socket cliente = new Socket("localhost",4444);
+            ObjectOutputStream mensaje = new ObjectOutputStream(cliente.getOutputStream());
+            mensaje.writeObject(modCli);
 
-            ps.setInt(1, Integer.parseInt(this.txt_cuidad.getText()));
-            ps.setString(2, this.txt_ruc.getText());
-            ps.setString(3, this.txt_nombre.getText());
-            ps.setString(4, this.txt_dir.getText());
-            ps.setInt(5, Integer.parseInt(this.txt_id.getText()));
+            ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
+            String mensaje2 = (String) entrada.readObject();
+            
+             if(mensaje2.equals("1")){
+                JOptionPane.showMessageDialog(null, "Datos modificados \n CORRECTAMENTE ! ");                
+                txt_ruc.setText("");
+                txt_nombre.setText("");
+                txt_dir.setText("");
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al modificar ! ");
 
-            ps.execute();
-
-            JOptionPane.showMessageDialog(null, "Producto Modificado");
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al Modificar Producto");
-            System.out.println(ex);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(jframe_FacturacionSimple1.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -524,11 +654,11 @@ public class jframe_FacturacionSimple1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtable_clientes;
-    private javax.swing.JTextField txtCampo;
     private javax.swing.JTextField txt_cuidad;
     private javax.swing.JTextField txt_dir;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_nombre;
     private javax.swing.JTextField txt_ruc;
+    private javax.swing.JTextField txt_rucCli;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import project.app.distribuidas.viewFacturacion.jframe_FacturacionCompleja;
 import project.app.distribuidas.viewFacturacion.jframe_FacturacionSimple1;
 
 /**
@@ -54,6 +55,11 @@ public class jframe_mainOptions extends javax.swing.JFrame {
         jMenu2.setText("Facturacion");
 
         jMenuItem1.setText("Compleja ");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem1);
 
         jMenuItem2.setText("Simple Cuidad");
@@ -114,6 +120,12 @@ public class jframe_mainOptions extends javax.swing.JFrame {
         fs1.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        this.setVisible(false);
+        jframe_FacturacionCompleja fc = new jframe_FacturacionCompleja();
+        fc.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments

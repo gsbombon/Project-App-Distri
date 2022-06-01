@@ -1,8 +1,11 @@
 
 package model;
 
-public class Cliente {
+import java.io.Serializable;
+
+public class Cliente implements Serializable {
     private int id;
+    private int id_cuidad;
     private String ruc;
     private String nombre;
     private String direccion;
@@ -15,6 +18,14 @@ public class Cliente {
         this.ruc = ruc;
         this.nombre = nombre;
         this.direccion = direccion;
+    }
+
+    public int getId_cuidad() {
+        return id_cuidad;
+    }
+
+    public void setId_cuidad(int id_cuidad) {
+        this.id_cuidad = id_cuidad;
     }
 
     public int getId() {

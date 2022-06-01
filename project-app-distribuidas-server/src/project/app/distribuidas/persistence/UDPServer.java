@@ -1,7 +1,6 @@
 package project.app.distribuidas.persistence;
 
 
-import project.app.distribuidas.DataBase.MysqlConnect;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -20,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Articulo;
 import model.Cliente;
-import static project.app.distribuidas.DataBase.MysqlConnect.ConnectDB;
+import model.Cobrador;
+import project.app.distribuidas.DataBase.MysqlConnect;
 
 public class UDPServer {
 
@@ -47,11 +47,6 @@ public class UDPServer {
                     ObjectOutputStream respuesta = new ObjectOutputStream(clienteNuevo.getOutputStream());
                     respuesta.writeObject(validacion);
                     break;
-                case "/tablaClientes":
-                    List lista = tablaClientes();
-                    ObjectOutputStream objectOutput = new ObjectOutputStream(clienteNuevo.getOutputStream());
-                    objectOutput.writeObject(lista);
-                    break;
                 case "/addClient":
                     String ruc = parts[1];
                     String nombre = parts[2];
@@ -60,6 +55,27 @@ public class UDPServer {
                     String confir = addClient(ruc,nombre,dir,cuidad);
                     ObjectOutputStream res = new ObjectOutputStream(clienteNuevo.getOutputStream());
                     res.writeObject(confir);
+                    break;
+                case "/findClientes":
+                    String ruc_find = parts[1];
+                    ArrayList<Cliente> listaClientes = findClients(ruc_find);
+                    for(int i = 0; i < listaClientes.size(); i++) {
+                            System.out.println(listaClientes.get(i).getNombre());
+                            System.out.println(listaClientes.get(i).getRuc());
+                    }
+                    ObjectOutputStream resCli = new ObjectOutputStream(clienteNuevo.getOutputStream());
+                    resCli.writeObject(listaClientes);
+                    break;
+                case "/tablaCobrador":
+                    ArrayList<Cobrador> Cobras = infoCobrador();
+                    for (int i = 0; i < Cobras.size(); i++) {
+                        System.out.println(Cobras.get(i).getId_cobrador() + " Id Case");
+                        System.out.println(Cobras.get(i).getCedula_cobrador() + " Cedula");
+                        System.out.println(Cobras.get(i).getNombre_cobrador() + " Nombre");
+                        System.out.println(Cobras.get(i).getDireccion_cobrador() + " Direccion Case");
+                    }
+                    ObjectOutputStream resCobra = new ObjectOutputStream(clienteNuevo.getOutputStream());
+                    resCobra.writeObject(Cobras);
                     break;
                 case "/listarArticulos":
                      ArrayList<Articulo> Arti = infoArticulo();
@@ -76,13 +92,72 @@ public class UDPServer {
                     break;
             }
 
-            //cerramos conexion
             clienteNuevo.close();
             servidor.close();
         }
 
     }
 
+    public static ArrayList<Cobrador> infoCobrador(){
+        ArrayList<Cobrador> cobradores=new ArrayList();
+        Connection conn = MysqlConnect.ConnectDB();
+        String sql = "Select * from cobra";
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){  
+                Cobrador nuevoCobra = new Cobrador();
+                nuevoCobra.setId_cobrador(rs.getInt(1));
+                nuevoCobra.setCedula_cobrador(rs.getString(2));
+                nuevoCobra.setNombre_cobrador(rs.getString(3));
+                nuevoCobra.setDireccion_cobrador(rs.getString(4));
+                cobradores.add(nuevoCobra);
+            }
+    
+         } catch (Exception e) {
+             System.out.println("Error");
+
+         }
+     
+          for(int i = 0; i<cobradores.size(); i++)
+            {
+                System.out.println(cobradores.get(i).getId_cobrador()+ " Id Info");
+                System.out.println(cobradores.get(i).getCedula_cobrador()+ " Cedula");
+                System.out.println(cobradores.get(i).getNombre_cobrador()+ " Nombre");
+                 System.out.println(cobradores.get(i).getDireccion_cobrador()+ " Direccion");
+            }
+         return cobradores;
+     }
+    
+    static public ArrayList<Cliente> findClients(String ruc) throws SQLException{
+        ArrayList<Cliente> lista = new ArrayList<Cliente>();
+        String where = "";
+        if (!"".equals(ruc)) {
+            where = "WHERE RUC_CLI = '" + ruc + "'";
+        }
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = MysqlConnect.ConnectDB();
+        
+        
+        String sql = "SELECT * FROM cliente " + where;
+        System.out.println(sql);
+        ps = conn.prepareStatement(sql);
+        rs = ps.executeQuery();
+
+        while(rs.next()){  
+            Cliente new_client = new Cliente();
+            new_client.setId(rs.getInt(1));
+            new_client.setId_cuidad(rs.getInt(2));
+            new_client.setRuc(rs.getString(3));
+            new_client.setNombre(rs.getString(4));
+            new_client.setDireccion(rs.getString(5));
+            lista.add(new_client);
+        }
+    
+        return lista;
+    }
     
     static public String addClient(String ruc,String nombre,String dir,int cuidad) throws SQLException{
         String result = "0";

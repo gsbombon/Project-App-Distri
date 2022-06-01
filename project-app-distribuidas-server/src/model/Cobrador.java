@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package project.app.distribuidas.model;
+package model;
 
 import java.io.Serializable;
 
@@ -10,8 +10,8 @@ import java.io.Serializable;
  *
  * @author pilli
  */
-public class Cobrador implements Serializable  {
-    int id_cobrador;
+public class Cobrador implements Serializable {
+     int id_cobrador;
     String cedula_cobrador;
     String nombre_cobrador;
     String direccion_cobrador;
