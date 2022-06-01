@@ -59,6 +59,7 @@ public class UDPServer {
                     res.writeObject(confir);
                     break;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 case "/findClientes":
                     String ruc_find = parts[1];
                     ArrayList<Cliente> listaClientes = findClients(ruc_find);
@@ -81,6 +82,9 @@ public class UDPServer {
                     resCobra.writeObject(Cobras);
                     break;
                 case "/listarArticulos":
+=======
+                case "listarArticulos":
+>>>>>>> Stashed changes
 =======
                 case "listarArticulos":
 >>>>>>> Stashed changes
