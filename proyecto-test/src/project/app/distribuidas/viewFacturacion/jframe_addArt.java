@@ -203,8 +203,14 @@ public class jframe_addArt extends javax.swing.JFrame {
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         this.setVisible(false);
-        jframe_FacturacionCompleja fc = new jframe_FacturacionCompleja();
-        fc.setVisible(true);
+        
+        try {
+            jframe_FacturacionCompleja fc = new jframe_FacturacionCompleja();
+            fc.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(jframe_addArt.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void btn_addArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addArtActionPerformed
