@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import project.app.distribuidas.viewFacturacion.jframe_FacturacionCompleja;
+import project.app.distribuidas.viewFacturacion.jframe_FacturacionReporte1;
 import project.app.distribuidas.viewFacturacion.jframe_FacturacionSimple1;
 import project.app.distribuidas.viewFacturacion.jframe_FacturacionSimple2;
 
@@ -66,6 +67,11 @@ public class jframe_mainOptions extends javax.swing.JFrame {
         jMenu2.add(jMenuItem3);
 
         jMenuItem4.setText("Reporte Ventas");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setText("Reporte Cruzado");
@@ -130,6 +136,17 @@ public class jframe_mainOptions extends javax.swing.JFrame {
         jframe_FacturacionSimple2 fs2 = new jframe_FacturacionSimple2();
         fs2.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        this.setVisible(false);
+        try {
+            jframe_FacturacionReporte1 fc = new jframe_FacturacionReporte1();
+            fc.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(jframe_mainOptions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
