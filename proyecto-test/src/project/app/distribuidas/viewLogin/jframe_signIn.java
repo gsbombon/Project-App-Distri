@@ -13,10 +13,12 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import project.app.distribuidas.viewInventario.jframe_InventarioSimple1;
 
 
 public class jframe_signIn extends javax.swing.JFrame {
@@ -132,6 +134,7 @@ public class jframe_signIn extends javax.swing.JFrame {
         String pass = txt_pass.getText();
         String path = "/login";
         String login = path+";"+user+";"+pass;
+       
         try {
             // CLIENTE UDP
             Socket cliente = new Socket("localhost",4444);
@@ -147,7 +150,8 @@ public class jframe_signIn extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "BIENVENIDO ! ");
                 jframe_mainOptions mo = new jframe_mainOptions();
                 mo.setVisible(true);
-                this.setVisible(false);   
+                this.setVisible(false);  
+                
             }else{
                 JOptionPane.showMessageDialog(null, "Usuario no registrado ! ");
                 this.txt_user.setText("");
@@ -159,6 +163,8 @@ public class jframe_signIn extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(jframe_signIn.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
         
     }//GEN-LAST:event_btn_signInActionPerformed
 
