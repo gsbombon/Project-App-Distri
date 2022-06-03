@@ -4,7 +4,24 @@
  */
 package project.app.distribuidas.viewInventario;
 
-import project.app.distribuidas.viewFacturacion.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import project.app.distribuidas.model.Articulo;
+import java.sql.SQLException;
+import project.app.distribuidas.db.MysqlConnect;
+import project.app.distribuidas.viewLogin.jframe_mainOptions;
+import project.app.distribuidas.viewLogin.jframe_signIn;
 
 /**
  *
@@ -15,9 +32,14 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
     /**
      * Creates new form jframe_simple1
      */
-    public jframe_InventarioSimple1() {
+   DefaultTableModel modelo = new DefaultTableModel();
+
+    public jframe_InventarioSimple1() throws IOException, ClassNotFoundException, SQLException {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
+ 
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,60 +50,503 @@ public class jframe_InventarioSimple1 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jp_datos = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txt_nomArt = new javax.swing.JTextField();
+        txt_precioA = new javax.swing.JTextField();
+        txt_stock = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txt_codigo = new javax.swing.JTextField();
+        jp_acciones = new javax.swing.JPanel();
+        btn_agregA = new javax.swing.JButton();
+        btn_modifiA = new javax.swing.JButton();
+        btn_nuevo = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
+        jp_listar = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table_Art = new javax.swing.JTable();
+        btn_Regresar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        txt_buscar = new javax.swing.JTextField();
+        btn_buscarA = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("ARTÍCULOS");
+
+        jp_datos.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
+
+        jLabel2.setText("Nombre");
+
+        jLabel3.setText("Precio");
+
+        txt_nomArt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_nomArtActionPerformed(evt);
+            }
+        });
+
+        txt_stock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_stockActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Stock");
+
+        txt_codigo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        txt_codigo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_codigo.setEnabled(false);
+        txt_codigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_codigoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jp_datosLayout = new javax.swing.GroupLayout(jp_datos);
+        jp_datos.setLayout(jp_datosLayout);
+        jp_datosLayout.setHorizontalGroup(
+            jp_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jp_datosLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addGroup(jp_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jp_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txt_stock)
+                    .addComponent(txt_precioA, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                    .addComponent(txt_nomArt))
+                .addGap(18, 18, 18)
+                .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jp_datosLayout.setVerticalGroup(
+            jp_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jp_datosLayout.createSequentialGroup()
+                .addGroup(jp_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jp_datosLayout.createSequentialGroup()
+                        .addGroup(jp_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txt_nomArt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jp_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txt_precioA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jp_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)))
+                    .addGroup(jp_datosLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        jp_acciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Acciones"));
+
+        btn_agregA.setText("Agregar");
+        btn_agregA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregAActionPerformed(evt);
+            }
+        });
+
+        btn_modifiA.setText("Modificar");
+        btn_modifiA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modifiAActionPerformed(evt);
+            }
+        });
+
+        btn_nuevo.setText("Nuevo");
+        btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nuevoActionPerformed(evt);
+            }
+        });
+
+        btn_eliminar.setText("Eliminar");
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jp_accionesLayout = new javax.swing.GroupLayout(jp_acciones);
+        jp_acciones.setLayout(jp_accionesLayout);
+        jp_accionesLayout.setHorizontalGroup(
+            jp_accionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jp_accionesLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addComponent(btn_agregA)
+                .addGap(37, 37, 37)
+                .addComponent(btn_modifiA)
+                .addGap(45, 45, 45)
+                .addComponent(btn_eliminar)
+                .addGap(35, 35, 35)
+                .addComponent(btn_nuevo)
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+        jp_accionesLayout.setVerticalGroup(
+            jp_accionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jp_accionesLayout.createSequentialGroup()
+                .addGroup(jp_accionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_agregA)
+                    .addComponent(btn_modifiA)
+                    .addComponent(btn_nuevo)
+                    .addComponent(btn_eliminar))
+                .addGap(0, 12, Short.MAX_VALUE))
+        );
+
+        jp_listar.setBorder(javax.swing.BorderFactory.createTitledBorder("Listado"));
+
+        table_Art.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Codigo", "Nombre", "Precio", "Stock"
+            }
+        ));
+        table_Art.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_ArtMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(table_Art);
+
+        javax.swing.GroupLayout jp_listarLayout = new javax.swing.GroupLayout(jp_listar);
+        jp_listar.setLayout(jp_listarLayout);
+        jp_listarLayout.setHorizontalGroup(
+            jp_listarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jp_listarLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+        jp_listarLayout.setVerticalGroup(
+            jp_listarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jp_listarLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(122, 122, 122))
+        );
+
+        btn_Regresar.setBackground(new java.awt.Color(51, 153, 0));
+        btn_Regresar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_Regresar.setText("Regresar");
+        btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RegresarActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Buscar");
+
+        btn_buscarA.setText("Buscar");
+        btn_buscarA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_buscarAActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jp_datos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jp_acciones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jp_listar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 189, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(57, 57, 57))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_buscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addComponent(btn_buscarA)
+                .addGap(94, 94, 94))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(jLabel1)
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_buscarA))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jp_datos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jp_acciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jp_listar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_Regresar, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_agregAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregAActionPerformed
+        
+        String nombre = txt_nomArt.getText();
+        String precio = txt_precioA.getText();
+        String stock = txt_stock.getText();
+        String path = "/addArticulo";
+        String addCliente = path+";"+nombre+";"+precio+";"+stock;
+        
+        try {
+            Socket cliente = new Socket("localhost",4444);
+            ObjectOutputStream mensaje = new ObjectOutputStream(cliente.getOutputStream());
+            mensaje.writeObject(addCliente);
+
+            ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
+            String mensaje2 = (String) entrada.readObject();
+            
+             if(mensaje2.equals("1")){
+                JOptionPane.showMessageDialog(null, "CREADO ! ");                
+                txt_nomArt.setText("");
+                txt_precioA.setText("");
+                txt_stock.setText("");
+            }else{
+                JOptionPane.showMessageDialog(null, "FALLIDO ! ");
+
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btn_agregAActionPerformed
+
+    private void txt_nomArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nomArtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_nomArtActionPerformed
+
+    private void btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegresarActionPerformed
+        jframe_mainOptions mo = new jframe_mainOptions();
+        mo.setVisible(true);
+        mo.setSize(500, 400);
+        mo.setResizable(false);
+        mo.setVisible(true);
+        this.setVisible(false);
+
+    }//GEN-LAST:event_btn_RegresarActionPerformed
+
+    private void btn_buscarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarAActionPerformed
+       String nom_buscar = txt_buscar.getText();
+        String where = "";
+        if (!"".equals(nom_buscar)) {
+            where = "WHERE NOMBRE_ART = '" + nom_buscar + "'";
+        }
+
+        try {
+            DefaultTableModel modelo = new DefaultTableModel();
+            this.table_Art.setModel(modelo);
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            Connection conn = MysqlConnect.ConnectDB();
+
+            String sql = "SELECT * FROM articulo " + where;
+            System.out.println(sql);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
+            int cantidadColumnas = rsMd.getColumnCount();
+
+            modelo.addColumn("Código");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Precio");    
+            modelo.addColumn("Stock");
+            int[] anchos = {50, 150, 150, 150};
+            for (int i = 0; i < this.table_Art.getColumnCount(); i++) {
+                this.table_Art.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+            }
+            while (rs.next()) {
+                Object[] filas = new Object[cantidadColumnas];
+                for (int i = 0; i < cantidadColumnas; i++) {
+                    filas[i] = rs.getObject(i + 1);
+                }
+                modelo.addRow(filas);
+            }
+
+        } catch (Exception ex) {
+            System.err.println(ex.toString());
+        }
+    }//GEN-LAST:event_btn_buscarAActionPerformed
+
+    private void txt_stockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_stockActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_stockActionPerformed
+
+    private void txt_codigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_codigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_codigoActionPerformed
+
+    private void table_ArtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_ArtMouseClicked
+       PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            Connection conn = MysqlConnect.ConnectDB();
+
+            int Fila = this.table_Art.getSelectedRow();
+            String codigo = this.table_Art.getValueAt(Fila, 0).toString();
+
+            ps = conn.prepareStatement("SELECT * FROM articulo WHERE CODIGO_ART=?");
+            ps.setString(1, codigo);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                this.txt_codigo.setText(rs.getString("CODIGO_ART"));
+                this.txt_nomArt.setText(rs.getString("NOMBRE_ART"));
+                this.txt_precioA.setText(rs.getString("PRECIO_ART"));
+                this.txt_stock.setText(rs.getString("STOCK_ART"));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        }
+    }//GEN-LAST:event_table_ArtMouseClicked
+
+    private void btn_modifiAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modifiAActionPerformed
+        int id = Integer.parseInt(txt_codigo.getText());
+        String nombre = txt_nomArt.getText();
+        String precio = txt_precioA.getText();
+        int stock = Integer.parseInt(this.txt_stock.getText());
+        String path = "/modArticulo";
+        String modCli = path+";"+id+";"+nombre+";"+precio+";"+stock;
+        
+        try {
+            Socket cliente = new Socket("localhost",4444);
+            ObjectOutputStream mensaje = new ObjectOutputStream(cliente.getOutputStream());
+            mensaje.writeObject(modCli);
+
+            ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
+            String mensaje2 = (String) entrada.readObject();
+            
+             if(mensaje2.equals("1")){
+                JOptionPane.showMessageDialog(null, "Datos modificados \n CORRECTAMENTE ! ");                
+                txt_nomArt.setText("");
+                txt_precioA.setText("");
+                txt_stock.setText("");
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al modificar ! ");
+
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_modifiAActionPerformed
+
+    private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
+        this.txt_codigo.setText("");
+        this.txt_nomArt.setText("");
+        this.txt_precioA.setText("");
+        this.txt_stock.setText("");
+    }//GEN-LAST:event_btn_nuevoActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        int Fila = this.table_Art.getSelectedRow();
+        int codigo = Integer.parseInt(this.table_Art.getValueAt(Fila, 0).toString());
+        String path = "/delArticulo";
+        String delCliente = path+";"+codigo;
+
+        try {
+            Socket cliente = new Socket("localhost",4444);
+            ObjectOutputStream mensaje = new ObjectOutputStream(cliente.getOutputStream());
+            mensaje.writeObject(delCliente);
+
+            ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
+            String mensaje2 = (String) entrada.readObject();
+
+            if(mensaje2.equals("1")){
+                JOptionPane.showMessageDialog(null, "Registro eliminado CORRECTAMENTE ! ");
+                txt_nomArt.setText("");
+                txt_precioA.setText("");
+                txt_stock.setText("");
+                txt_codigo.setText("");
+            }else{
+                JOptionPane.showMessageDialog(null, "ERROR !! \n No se pude eliminar ya que se hace uso en \n FACTURACIÓN! ");
+
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(jframe_InventarioSimple2.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(jframe_InventarioSimple2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new jframe_InventarioSimple1().setVisible(true);
+                
+                try {
+                    new jframe_InventarioSimple1().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(jframe_InventarioSimple1.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Regresar;
+    private javax.swing.JButton btn_agregA;
+    private javax.swing.JButton btn_buscarA;
+    private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_modifiA;
+    private javax.swing.JButton btn_nuevo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jp_acciones;
+    private javax.swing.JPanel jp_datos;
+    private javax.swing.JPanel jp_listar;
+    private javax.swing.JTable table_Art;
+    private javax.swing.JTextField txt_buscar;
+    private javax.swing.JTextField txt_codigo;
+    private javax.swing.JTextField txt_nomArt;
+    private javax.swing.JTextField txt_precioA;
+    private javax.swing.JTextField txt_stock;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import project.app.distribuidas.viewFacturacion.jframe_FacturacionCompleja;
 import project.app.distribuidas.viewFacturacion.jframe_FacturacionSimple1;
 import project.app.distribuidas.viewInventario.jframe_InventarioCompleja;
 import project.app.distribuidas.viewInventario.jframe_InventarioReporte1;
@@ -175,8 +176,9 @@ public class jframe_mainOptions extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+        this.setVisible(false);
+        jframe_FacturacionCompleja fc = new jframe_FacturacionCompleja();
+        fc.setVisible(true);    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void menu_ArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ArticuloActionPerformed
         jframe_InventarioSimple1 is1 = new jframe_InventarioSimple1();

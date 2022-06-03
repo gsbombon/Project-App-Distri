@@ -87,7 +87,6 @@ public class UDPServer {
 >>>>>>> Stashed changes
 =======
                 case "listarArticulos":
->>>>>>> Stashed changes
                      ArrayList<Articulo> Arti = infoArticulo();
                     System.out.println(Arti.get(1).getNombre());
                     for (int i = 0; i < Arti.size(); i++) {

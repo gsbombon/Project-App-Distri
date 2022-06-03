@@ -1,26 +1,14 @@
 package project.app.distribuidas.persistence;
 
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JOptionPane;
-import model.Articulo;
-import model.Cliente;
-import model.Cobrador;
 import project.app.distribuidas.DataBase.MysqlConnect;
 
 public class UDPServer {
@@ -31,15 +19,15 @@ public class UDPServer {
             // creamos el socker servidor
             ServerSocket servidor = new ServerSocket(4444);
             Socket clienteNuevo = servidor.accept();
+
             // leemos lo que esta trayendo el socket
             ObjectInputStream entrada = new ObjectInputStream(clienteNuevo.getInputStream());
-            String mensaje =     (String) entrada.readObject();
+            String mensaje = (String) entrada.readObject();
             System.out.println("" + mensaje);
             // separamos los datos
             String[] parts = mensaje.split(";");
             String path = parts[0];
-            
-
+            System.out.println(mensaje);
             switch (path) {
                 case "/login":
                     String user = parts[1];
@@ -48,67 +36,59 @@ public class UDPServer {
                     ObjectOutputStream respuesta = new ObjectOutputStream(clienteNuevo.getOutputStream());
                     respuesta.writeObject(validacion);
                     break;
-                case "/addClient":
-                    String ruc = parts[1];
-                    String nombre = parts[2];
-                    String dir = parts[3];
-                    int cuidad = 1;
-                    String confir = addClient(ruc,nombre,dir,cuidad);
+                case "/addArticulo":
+                    String nombre = parts[1];
+                    String precio = parts[2];
+                    int stock = Integer.parseInt(parts[3]);
+                    String confir = addArticulo(nombre, precio, stock);
                     ObjectOutputStream res = new ObjectOutputStream(clienteNuevo.getOutputStream());
                     res.writeObject(confir);
                     break;
-                /*
-                case "/findClientes":
-                    String ruc_find = parts[1];
-                    ArrayList<Cliente> listaClientes = findClients(ruc_find);
-                    for(int i = 0; i < listaClientes.size(); i++) {
-                            System.out.println(listaClientes.get(i).getNombre());
-                            System.out.println(listaClientes.get(i).getRuc());
-                    }
-                    ObjectOutputStream resCli = new ObjectOutputStream(clienteNuevo.getOutputStream());
-                    resCli.writeObject(listaClientes);
+                case "/addTipoMov":
+                    String nombreM = parts[1];
+                    String signoM = parts[2];
+                    String confirM = addTipoMov(nombreM, signoM);
+                    ObjectOutputStream resM = new ObjectOutputStream(clienteNuevo.getOutputStream());
+                    resM.writeObject(confirM);
                     break;
-                case "/tablaCobrador":
-                    ArrayList<Cobrador> Cobras = infoCobrador();
-                    for (int i = 0; i < Cobras.size(); i++) {
-                        System.out.println(Cobras.get(i).getId_cobrador() + " Id Case");
-                        System.out.println(Cobras.get(i).getCedula_cobrador() + " Cedula");
-                        System.out.println(Cobras.get(i).getNombre_cobrador() + " Nombre");
-                        System.out.println(Cobras.get(i).getDireccion_cobrador() + " Direccion Case");
-                    }
-                    ObjectOutputStream resCobra = new ObjectOutputStream(clienteNuevo.getOutputStream());
-                    resCobra.writeObject(Cobras);
-                    break;
-*/
-                case "/modCliente":
+
+                case "/modArticulo":
                     int idMod = Integer.parseInt(parts[1]);
-                    int id_cuidad = Integer.parseInt(parts[2]);
-                    String rucNew = parts[3];
-                    String nombreNew = parts[4];
-                    String dirNew = parts[5];
-                    
-                    String confirMod = modClient(idMod,id_cuidad,rucNew,nombreNew,dirNew);
+                    String nombreNew = parts[2];
+                    String precioNew = parts[3];
+                    int stockNew = Integer.parseInt(parts[4]);
+                    String confirMod = modArticulo(idMod, nombreNew, precioNew, stockNew);
                     ObjectOutputStream resMod = new ObjectOutputStream(clienteNuevo.getOutputStream());
                     resMod.writeObject(confirMod);
                     break;
-                case "/listarArticulos":
-                     ArrayList<Articulo> Arti = infoArticulo();
-                    System.out.println(Arti.get(2).getNombre());
-                    for (int i = 0; i < Arti.size(); i++) {
-                        System.out.println(Arti.get(i).getId() + " Id ");
-                        System.out.println(Arti.get(i).getNombre() + " Nombre");
-                        System.out.println(Arti.get(i).getPrecio() + " Precio");
-                    }
-                    ObjectOutputStream var = new ObjectOutputStream(clienteNuevo.getOutputStream());
-                    var.writeObject(Arti);
-                    
-                case "/delCliente":
+                case "/modTipoMov":
+                    int idModM = Integer.parseInt(parts[1]);
+                    String nombreMNew = parts[2];
+                    String signoMNew = parts[3];
+                    String confirModM = modTipoMov(idModM, nombreMNew, signoMNew);
+                    ObjectOutputStream resModM = new ObjectOutputStream(clienteNuevo.getOutputStream());
+                    resModM.writeObject(confirModM);
+                    break;
+
+                /* case "/delCliente":
                     int idDel = Integer.parseInt(parts[1]);
-                    
-                    String delCli = delClient(idDel);
+                    String delCli = delArticulo(idDel);
                     ObjectOutputStream resDel = new ObjectOutputStream(clienteNuevo.getOutputStream());
                     resDel.writeObject(delCli);
+                    break;*/
+                case "/delArticulo":
+                    int idDelArt = Integer.parseInt(parts[1]);
+                    String delArt = delArticulo(idDelArt);
+                    ObjectOutputStream resDelArt = new ObjectOutputStream(clienteNuevo.getOutputStream());
+                    resDelArt.writeObject(delArt);
                     break;
+                case "/delTipoMov":
+                    int idDelMov = Integer.parseInt(parts[1]);
+                    String delMov = delTipoMov(idDelMov);
+                    ObjectOutputStream resDelMov = new ObjectOutputStream(clienteNuevo.getOutputStream());
+                    resDelMov.writeObject(delMov);
+                    break;
+
             }
 
             clienteNuevo.close();
@@ -117,92 +97,54 @@ public class UDPServer {
 
     }
 
-    
-    
-    public static ArrayList<Cobrador> infoCobrador(){
-        ArrayList<Cobrador> cobradores=new ArrayList();
-        Connection conn = MysqlConnect.ConnectDB();
-        String sql = "Select * from cobra";
-        try {
-            PreparedStatement pst = conn.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-            while(rs.next()){  
-                Cobrador nuevoCobra = new Cobrador();
-                nuevoCobra.setId_cobrador(rs.getInt(1));
-                nuevoCobra.setCedula_cobrador(rs.getString(2));
-                nuevoCobra.setNombre_cobrador(rs.getString(3));
-                nuevoCobra.setDireccion_cobrador(rs.getString(4));
-                cobradores.add(nuevoCobra);
-            }
-    
-         } catch (Exception e) {
-             System.out.println("Error");
-
-         }
-         return cobradores;
-     }
-    
-    static public ArrayList<Cliente> findClients(String ruc) throws SQLException{
-        ArrayList<Cliente> lista = new ArrayList<Cliente>();
-        String where = "";
-        if (!"".equals(ruc)) {
-            where = "WHERE RUC_CLI = '" + ruc + "'";
-        }
-        
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Connection conn = MysqlConnect.ConnectDB();
-        
-        
-        String sql = "SELECT * FROM cliente " + where;
-        System.out.println(sql);
-        ps = conn.prepareStatement(sql);
-        rs = ps.executeQuery();
-
-        while(rs.next()){  
-            Cliente new_client = new Cliente();
-            new_client.setId(rs.getInt(1));
-            new_client.setId_cuidad(rs.getInt(2));
-            new_client.setRuc(rs.getString(3));
-            new_client.setNombre(rs.getString(4));
-            new_client.setDireccion(rs.getString(5));
-            lista.add(new_client);
-        }
-    
-        return lista;
-    }
-    
-    static public String delClient(int id){
+    static public String delArticulo(int id) {
         String result = "0";
         Connection conn = MysqlConnect.ConnectDB();
         PreparedStatement ps = null;
-        
         try {
-            ps = conn.prepareStatement("DELETE FROM cliente WHERE CODIGO_CLI=?");
+            ps = conn.prepareStatement("DELETE FROM articulo WHERE CODIGO_ART=?");
             ps.setInt(1, id);
             ps.execute();
             result = "1";
-        } catch (SQLException ex) {            
+
+        } catch (SQLException ex) {
             System.out.println(ex.toString());
             result = "0";
         }
-        
+
         return result;
     }
-    static public String modClient(int id,int id_cuidad,String ruc, String nombre, String direccion){
+
+    static public String delTipoMov(int id) {
         String result = "0";
         Connection conn = MysqlConnect.ConnectDB();
         PreparedStatement ps = null;
-        try {            
-            ps = conn.prepareStatement("UPDATE cliente SET CODIGO_CIU=?, RUC_CLI=?, NOM_CLI=?, DIR_CLI=? WHERE CODIGO_CLI=?");
-            
-            ps.setInt(1, id_cuidad);
-            ps.setString(2, ruc);
-            ps.setString(3, nombre);
-            ps.setString(4, direccion);
-            ps.setInt(5, id);
+        try {
+            ps = conn.prepareStatement("DELETE FROM tipomovimiento WHERE CODIGO_TMOV=?");
+            ps.setInt(1, id);
             ps.execute();
-            System.out.println("QUERY: "+ps.toString());
+            result = "1";
+
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+            result = "0";
+        }
+
+        return result;
+    }
+
+    static public String modArticulo(int id, String nombre, String precio, int stock) {
+        String result = "0";
+        Connection conn = MysqlConnect.ConnectDB();
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement("UPDATE articulo SET NOMBRE_ART=?, PRECIO_ART=? , STOCK_ART =? WHERE CODIGO_ART=?");
+            ps.setString(1, nombre);
+            ps.setString(2, precio);
+            ps.setInt(3, stock);
+            ps.setInt(4, id);
+            ps.execute();
+            System.out.println("QUERY: " + ps.toString());
             result = "1";
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -210,36 +152,77 @@ public class UDPServer {
         }
         return result;
     }
-    
-    static public String addClient(String ruc,String nombre,String dir,int cuidad) throws SQLException{
+
+    static public String modTipoMov(int id, String nombre, String signo) {
         String result = "0";
         Connection conn = MysqlConnect.ConnectDB();
         PreparedStatement ps = null;
-        String sql = "INSERT INTO cliente (`CODIGO_CIU`,`RUC_CLI`,`NOM_CLI`,`DIR_CLI`) VALUES (?,?,?,?)";
-        
-        try{
-            ps = conn.prepareStatement(sql);
-            ps.setInt(1, cuidad);
-            ps.setString(2, ruc);
-            ps.setString(3, nombre);
-            ps.setString(4, dir);
+        try {
+            ps = conn.prepareStatement("UPDATE tipomovimiento SET NOMBRE_TMOV=?, SIGNO_TMOV=? WHERE CODIGO_TMOV=?");
+            ps.setString(1, nombre);
+            ps.setString(2, signo);
+            ps.setInt(3, id);
             ps.execute();
-            
-            result="1";
-            
-        }catch(SQLException e){
+            System.out.println("QUERY: " + ps.toString());
+            result = "1";
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            result = "0";
+        }
+        return result;
+    }
+
+    static public String addArticulo(String nombre, String precio, int stock) throws SQLException {
+        String result = "0";
+        Connection conn = MysqlConnect.ConnectDB();
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO articulo (`NOMBRE_ART`,`PRECIO_ART`,`STOCK_ART`) VALUES (?,?,?)";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ps.setString(2, precio);
+            ps.setInt(3, stock);
+            ps.execute();
+            result = "1";
+
+        } catch (SQLException e) {
             System.err.println(e);
-            result="0";
-        }finally{
-            try{
+            result = "0";
+        } finally {
+            try {
                 conn.close();
-            }catch(SQLException e){
+            } catch (SQLException e) {
                 System.err.println(e);
             }
         }
         return result;
     }
-    
+
+    static public String addTipoMov(String nombre, String signo) throws SQLException {
+        String result = "0";
+        Connection conn = MysqlConnect.ConnectDB();
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO tipomovimiento (`NOMBRE_TMOV`,`SIGNO_TMOV`) VALUES (?,?)";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ps.setString(2, signo);
+            ps.execute();
+            result = "1";
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            result = "0";
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+        return result;
+    }
+
     static public String validationUser(String user, String pass) {
         String result = "0";
         Connection conn = MysqlConnect.ConnectDB();
@@ -260,61 +243,4 @@ public class UDPServer {
         return result;
     }
 
-    static List tablaClientes() throws SQLException {
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Connection conn = MysqlConnect.ConnectDB();
-        
-        String sql = "SELECT CODIGO_CLI,RUC_CLI,NOM_CLI,DIR_CLI FROM cliente";
-        ps = conn.prepareStatement(sql);
-        rs = ps.executeQuery();
-        
-        List<Cliente> listClientes = new ArrayList<Cliente>();
-        
-        int columns = 4;
-        while (rs.next()) {
-            Cliente cli = new Cliente();
-            cli.setId(rs.getInt("CODIGO_CLI"));
-            cli.setRuc(rs.getString("RUC_CLI"));
-            cli.setNombre(rs.getString("NOM_CLI"));
-            cli.setDireccion(rs.getString("DIR_CLI"));
-
-            listClientes.add(cli);
-        }
-
-        return listClientes;
-
-    }
-    
-    
-     public static ArrayList<Articulo> infoArticulo(){
-        ArrayList<Articulo> arti=new ArrayList();
-        Connection conn = MysqlConnect.ConnectDB();
-        String sql = "Select * from articulo";
-        try {
-            PreparedStatement pst = conn.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-            while(rs.next()){  
-                Articulo nuevoArt = new Articulo();
-                nuevoArt.setId(rs.getInt(1));
-                nuevoArt.setNombre(rs.getString(2));
-                nuevoArt.setPrecio(rs.getString(3));
-                arti.add(nuevoArt);
-            }
-    
-         } catch (Exception e) {
-             System.out.println("Error");
-
-         }
-     
-          for(int i = 0; i<arti.size(); i++)
-            {
-                System.out.println(arti.get(i).getId()+ " Id");
-                System.out.println(arti.get(i).getNombre()+ " Nombre");
-                System.out.println(arti.get(i).getPrecio()+ " Precio");
-            }
-         return arti;
-     }
-    
-    
 }
