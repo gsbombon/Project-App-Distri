@@ -57,58 +57,88 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
-        txt_numFac = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txt_fecha = new javax.swing.JTextField();
-        txt_ciudad = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        btn_clean = new javax.swing.JButton();
+        btn_newFact = new javax.swing.JButton();
+        cmb_listFacturas = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        txt_ruc = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtable_detailsFactura = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
-        btn_buscar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         btn_addArt = new javax.swing.JButton();
         btn_delArt = new javax.swing.JButton();
-        cmb_listFacturas = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
-        btn_clean = new javax.swing.JButton();
         btn_modArt = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        btn_buscar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txt_ciudad = new javax.swing.JTextField();
+        txt_fecha = new javax.swing.JTextField();
+        txt_numFac = new javax.swing.JTextField();
         cmb_ruc = new javax.swing.JComboBox<>();
-        btn_newFact = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        txt_ruc = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setText("Numero de Factura");
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txt_numFac.setEditable(false);
-        txt_numFac.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_numFac.setOpaque(true);
-
-        jLabel3.setText("Fecha");
-
-        txt_fecha.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        txt_ciudad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_ciudad.addActionListener(new java.awt.event.ActionListener() {
+        btn_clean.setBackground(new java.awt.Color(51, 51, 51));
+        btn_clean.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btn_clean.setForeground(new java.awt.Color(204, 204, 204));
+        btn_clean.setText("Limpiar");
+        btn_clean.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_ciudadActionPerformed(evt);
+                btn_cleanActionPerformed(evt);
             }
         });
+        jPanel1.add(btn_clean, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 260, 197, -1));
 
-        jLabel4.setText("Cuidad de entrega");
+        btn_newFact.setBackground(new java.awt.Color(51, 51, 51));
+        btn_newFact.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btn_newFact.setForeground(new java.awt.Color(204, 204, 204));
+        btn_newFact.setText("Nueva Factura");
+        btn_newFact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_newFactActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_newFact, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 210, 197, -1));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setText("FACTURAS COMPLEJAS");
+        cmb_listFacturas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmb_listFacturas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        cmb_listFacturas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cmb_listFacturasMouseClicked(evt);
+            }
+        });
+        cmb_listFacturas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_listFacturasActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cmb_listFacturas, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 350, 197, -1));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setText("Detalle de Facturas");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, -1, -1));
 
-        txt_ruc.setEditable(false);
-        txt_ruc.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jButton1.setBackground(new java.awt.Color(51, 51, 51));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(204, 204, 204));
+        jButton1.setText("Volver al Menu");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 640, 260, 32));
 
         jtable_detailsFactura.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -123,189 +153,136 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jtable_detailsFactura);
 
-        jLabel5.setText("RUC CLIENTE");
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 430, 521, 183));
 
-        btn_buscar.setText("BUSCAR");
-        btn_buscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_buscarActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("Volver al Menu");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
+        btn_addArt.setBackground(new java.awt.Color(51, 51, 51));
+        btn_addArt.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_addArt.setForeground(new java.awt.Color(204, 204, 204));
         btn_addArt.setText("Añadir Articulo");
         btn_addArt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_addArtActionPerformed(evt);
             }
         });
+        jPanel1.add(btn_addArt, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 430, 125, -1));
 
+        btn_delArt.setBackground(new java.awt.Color(51, 51, 51));
+        btn_delArt.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_delArt.setForeground(new java.awt.Color(204, 204, 204));
         btn_delArt.setText("Quitar Articulo");
         btn_delArt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_delArtActionPerformed(evt);
             }
         });
+        jPanel1.add(btn_delArt, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 470, 125, -1));
 
-        cmb_listFacturas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cmb_listFacturasMouseClicked(evt);
-            }
-        });
-        cmb_listFacturas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmb_listFacturasActionPerformed(evt);
-            }
-        });
-
-        jLabel6.setText("Facturas registradas");
-
-        btn_clean.setText("Limpiar");
-        btn_clean.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_cleanActionPerformed(evt);
-            }
-        });
-
+        btn_modArt.setBackground(new java.awt.Color(51, 51, 51));
+        btn_modArt.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_modArt.setForeground(new java.awt.Color(204, 204, 204));
         btn_modArt.setText("Modificar");
         btn_modArt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_modArtActionPerformed(evt);
             }
         });
+        jPanel1.add(btn_modArt, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 510, 125, -1));
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setText("Facturas registradas");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 310, 197, -1));
+
+        btn_buscar.setBackground(new java.awt.Color(51, 51, 51));
+        btn_buscar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btn_buscar.setForeground(new java.awt.Color(204, 204, 204));
+        btn_buscar.setText("BUSCAR");
+        btn_buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_buscarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 160, 197, 32));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setText("Cuidad de entrega");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("Fecha");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("Numero de Factura");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
+
+        txt_ciudad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_ciudad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_ciudad.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        txt_ciudad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_ciudadActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txt_ciudad, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 330, 153, -1));
+
+        txt_fecha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_fecha.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_fecha.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel1.add(txt_fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, 153, -1));
+
+        txt_numFac.setEditable(false);
+        txt_numFac.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_numFac.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_numFac.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        txt_numFac.setOpaque(true);
+        jPanel1.add(txt_numFac, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 153, -1));
+
+        cmb_ruc.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         cmb_ruc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_rucActionPerformed(evt);
             }
         });
+        jPanel1.add(cmb_ruc, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, 153, 32));
 
-        btn_newFact.setText("Nueva Factura");
-        btn_newFact.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_newFactActionPerformed(evt);
-            }
-        });
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setText("RUC CLIENTE");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btn_addArt, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                                    .addComponent(btn_delArt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btn_modArt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txt_ruc, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(53, 53, 53)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txt_fecha, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
-                                    .addComponent(txt_numFac, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
-                                    .addComponent(txt_ciudad, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
-                                    .addComponent(cmb_ruc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-                                    .addComponent(cmb_listFacturas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btn_clean, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btn_newFact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(19, 19, 19))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(219, 219, 219))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(185, 185, 185))))))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(126, 126, 126)
-                            .addComponent(jLabel5))
-                        .addGroup(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel7))))
-                    .addContainerGap(493, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+        txt_ruc.setEditable(false);
+        txt_ruc.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_ruc.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel1.add(txt_ruc, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 164, 32));
+
+        jPanel2.setBackground(new java.awt.Color(51, 51, 51));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel1.setText("FACTURAS COMPLEJAS");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(163, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txt_ruc, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cmb_ruc))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(txt_numFac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_newFact)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                        .addComponent(btn_clean)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(txt_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jLabel6)
-                        .addGap(9, 9, 9)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmb_listFacturas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_addArt)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_delArt)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_modArt)))
-                .addGap(29, 29, 29)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(53, 53, 53)
-                    .addComponent(jLabel5)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-                    .addComponent(jLabel2)
-                    .addGap(26, 26, 26)
-                    .addComponent(jLabel3)
-                    .addGap(27, 27, 27)
-                    .addComponent(jLabel4)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                    .addComponent(jLabel7)
-                    .addGap(304, 304, 304)))
+                .addGap(155, 155, 155))
+            .addComponent(jSeparator1)
         );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 120));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 700));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -632,7 +609,10 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jtable_detailsFactura;
     private javax.swing.JTextField txt_ciudad;
     private javax.swing.JTextField txt_fecha;

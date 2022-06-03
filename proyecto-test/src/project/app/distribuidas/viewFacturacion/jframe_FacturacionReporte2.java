@@ -41,14 +41,17 @@ public class jframe_FacturacionReporte2 extends javax.swing.JFrame implements Pr
         btn_genReport = new javax.swing.JButton();
         btn_imprimir = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panel_report2.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel2.setText("Reporte por cliente y artículo ");
 
+        jtable_report2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtable_report2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -116,12 +119,15 @@ public class jframe_FacturacionReporte2 extends javax.swing.JFrame implements Pr
                         .addGap(20, 20, 20))))
         );
 
+        getContentPane().add(panel_report2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         btn_genReport.setText("GENERAR REPORTE");
         btn_genReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_genReportActionPerformed(evt);
             }
         });
+        getContentPane().add(btn_genReport, new org.netbeans.lib.awtextra.AbsoluteConstraints(787, 50, 147, 40));
 
         btn_imprimir.setText("Imprimir");
         btn_imprimir.addActionListener(new java.awt.event.ActionListener() {
@@ -129,6 +135,7 @@ public class jframe_FacturacionReporte2 extends javax.swing.JFrame implements Pr
                 btn_imprimirActionPerformed(evt);
             }
         });
+        getContentPane().add(btn_imprimir, new org.netbeans.lib.awtextra.AbsoluteConstraints(787, 102, 147, 40));
 
         jButton1.setText("Menu Principal");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -136,32 +143,22 @@ public class jframe_FacturacionReporte2 extends javax.swing.JFrame implements Pr
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(787, 395, 147, 40));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panel_report2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_genReport, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
-                    .addComponent(btn_imprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 21, Short.MAX_VALUE))
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 190, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(btn_genReport, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btn_imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(29, 29, 29))
-            .addComponent(panel_report2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 470, Short.MAX_VALUE)
         );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 0, 190, 470));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -292,6 +289,7 @@ public class jframe_FacturacionReporte2 extends javax.swing.JFrame implements Pr
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtable_report2;
     private javax.swing.JPanel panel_report2;
