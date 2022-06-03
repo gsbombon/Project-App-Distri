@@ -18,6 +18,15 @@ public class jframe_addArt extends javax.swing.JFrame {
     private int idCabecera;
     private int idProduct; 
     private String precio;
+    private String ruc;
+
+    public String getRuc() {
+        return ruc;
+    }
+
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
+    }
 
     public void setPrecio(String precio) {
         this.precio = precio;
@@ -45,13 +54,15 @@ public class jframe_addArt extends javax.swing.JFrame {
     }
     
     
-    public jframe_addArt(int idCabecera) throws SQLException {
+    public jframe_addArt(int idCabecera,String ruc) throws SQLException {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setIdCabecera(idCabecera);
+        this.setRuc(ruc);
         System.out.println("id factura"+this.getIdCabecera());
         
         this.cargarCmbArticulos();
+        
         
     }
 
@@ -221,12 +232,14 @@ public class jframe_addArt extends javax.swing.JFrame {
         int cantidad = this.sld_cantidad.getValue();
         String precio = this.getPrecio();
         
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Connection conn = MysqlConnect.ConnectDB();
         
         String sql = " INSERT INTO detalle_comprobante_factura VALUES (?,?,?,?,?); ";        
         try {
+            this.savePricePivote(this.getRuc(), precio, codArticulo);
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            Connection conn = MysqlConnect.ConnectDB();
+            
             ps = conn.prepareStatement(sql);
             ps.setInt(1, codArticulo);
             ps.setInt(2, numCabecera);
@@ -311,7 +324,6 @@ public class jframe_addArt extends javax.swing.JFrame {
     }
     
     private void cargarCmbArticulos() throws SQLException{
-        
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection conn = MysqlConnect.ConnectDB();
@@ -326,9 +338,29 @@ public class jframe_addArt extends javax.swing.JFrame {
             this.cmb_articulo.addItem((rs.getString("CODIGO_ART"))+" | "+ rs.getString("NOMBRE_ART"));
         }
     }
-    /**
-     * @param args the command line arguments
-     */
+    
+    private void savePricePivote(String ruc,String cantidad,int id_articulo) throws SQLException{
+        String nomClient = "";
+        PreparedStatement ps = null;
+        PreparedStatement psNC = null;
+        ResultSet rs = null;
+        Connection conn = MysqlConnect.ConnectDB();
+        
+        String sqlNomCli = "SELECT NOM_CLI FROM cliente WHERE RUC_CLI='"+ruc+"'";
+        psNC = conn.prepareStatement(sqlNomCli);
+        rs = psNC.executeQuery();
+        
+        while(rs.next()){
+            nomClient = rs.getString("NOM_CLI");
+        }
+        
+        
+        String sql = "UPDATE reporte_pivote SET "+nomClient+" = '"+cantidad+"' WHERE (id="+id_articulo+")";
+        ps = conn.prepareStatement(sql);
+        ps.execute();
+        
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

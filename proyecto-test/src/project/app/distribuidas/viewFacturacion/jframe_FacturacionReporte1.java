@@ -54,15 +54,13 @@ public class jframe_FacturacionReporte1 extends javax.swing.JFrame implements Pr
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btn_genReport.setText("Generar \nReporte");
+        btn_genReport.setText("Generar  Reporte");
         btn_genReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_genReportActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_genReport, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 120, -1, 79));
 
         jButton1.setText("Imprimir");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -70,7 +68,6 @@ public class jframe_FacturacionReporte1 extends javax.swing.JFrame implements Pr
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 350, 115, 33));
 
         btn_limpiar.setText("LIMPIAR");
         btn_limpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -78,7 +75,6 @@ public class jframe_FacturacionReporte1 extends javax.swing.JFrame implements Pr
                 btn_limpiarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 470, 115, 77));
 
         panel_print.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -120,7 +116,7 @@ public class jframe_FacturacionReporte1 extends javax.swing.JFrame implements Pr
         panel_printLayout.setHorizontalGroup(
             panel_printLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_printLayout.createSequentialGroup()
-                .addContainerGap(59, Short.MAX_VALUE)
+                .addContainerGap(69, Short.MAX_VALUE)
                 .addGroup(panel_printLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panel_printLayout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -152,7 +148,7 @@ public class jframe_FacturacionReporte1 extends javax.swing.JFrame implements Pr
             .addGroup(panel_printLayout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(panel_printLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(cmb_ciudades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -175,7 +171,29 @@ public class jframe_FacturacionReporte1 extends javax.swing.JFrame implements Pr
                 .addGap(22, 22, 22))
         );
 
-        getContentPane().add(panel_print, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, -1));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panel_print, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_genReport)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panel_print, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addComponent(btn_genReport, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(151, 151, 151)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(87, 87, 87)
+                .addComponent(btn_limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

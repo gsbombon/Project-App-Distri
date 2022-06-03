@@ -20,7 +20,7 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
 
     private int idCabecera;
     private int idDetalle;
-    private int idCliente;
+    private int idCliente;   
 
     public int getIdCliente() {
         return idCliente;
@@ -30,8 +30,6 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         this.idCliente = idCliente;
     }
     
-    
-
     public int getIdCabecera() {
         return idCabecera;
     }
@@ -341,9 +339,9 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
 
     private void btn_addArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addArtActionPerformed
         String ruc = this.txt_ruc.getText();
-        jframe_addArt fa;
+        
         try {
-            fa = new jframe_addArt(this.getIdCabecera());
+            jframe_addArt fa = new jframe_addArt(this.getIdCabecera(),ruc);
             fa.setVisible(true);
             this.setVisible(false);
         } catch (SQLException ex) {
@@ -489,7 +487,7 @@ public class jframe_FacturacionCompleja extends javax.swing.JFrame {
         ResultSet rs = null;
         Connection conn = MysqlConnect.ConnectDB();
         
-        String sql = "SELECT CODIGO_CLI, RUC_CLI FROM cliente;";        
+        String sql = "SELECT CODIGO_CLI, RUC_CLI FROM cliente";
         ps = conn.prepareStatement(sql);
         rs = ps.executeQuery();     
         
